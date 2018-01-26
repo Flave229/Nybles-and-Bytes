@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Lift : MonoBehaviour
 {
-	public GameObject player;
 	private PlayerController PC;
 	public GameObject DestinationDoor;
 	bool bActive;
@@ -16,7 +15,7 @@ public class Lift : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		PC = player.GetComponent<PlayerController>();
+		PC = FindObjectOfType<PlayerController>();
 
 		if (DestinationDoor.transform.position.y > transform.position.y)
 		{
@@ -31,7 +30,7 @@ public class Lift : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (!bActive && Input.GetKey(KeyCode.E) && (player.transform.position.y == transform.position.y - 0.75f) && player.transform.localPosition.x > transform.localPosition.x-1.0f && player.transform.localPosition.x < transform.localPosition.x + 1.0f)
+		if (!bActive && Input.GetKey(KeyCode.E) && (PC.transform.position.y == transform.position.y - 0.75f) && PC.transform.localPosition.x > transform.localPosition.x-1.0f && PC.transform.localPosition.x < transform.localPosition.x + 1.0f)
 		{
 			bActive = true;
 			PC.SetPlayerPossessed(true);
