@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door : MonoBehaviour
+public class Lift : MonoBehaviour
 {
 	private PlayerController PC;
 	public GameObject DestinationDoor;
