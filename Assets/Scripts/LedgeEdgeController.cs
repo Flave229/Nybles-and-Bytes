@@ -18,7 +18,7 @@ public class LedgeEdgeController : MonoBehaviour
     [SerializeField]
     private LedgeAttachment _mLedgeDirection;
     private CharacterFacing _mCompatibleClimbDir;
-    private PlayerController _mPlayerController = null;
+    private PlayerCTRL _mPlayerCTRL = null;
     private bool _mIsClimbing = false;
 
     private float _mPlayerHeight;
@@ -42,7 +42,7 @@ public class LedgeEdgeController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_mPlayerController == null) return;
+        if (_mPlayerCTRL == null) return;
         if (_mIsClimbing)
         {
             ClimbLedge();
@@ -51,28 +51,33 @@ public class LedgeEdgeController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W))
         {
-            _mPlayerController.SetFacingDir(CharacterFacing.FACE_UP);
+            _mPlayerCTRL.SetFacingDir(CharacterFacing.FACE_UP);
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            _mPlayerController.SetFacingDir(CharacterFacing.FACE_DOWN);
+            _mPlayerCTRL.SetFacingDir(CharacterFacing.FACE_DOWN);
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            _mPlayerController.SetFacingDir(CharacterFacing.FACE_LEFT);
+            _mPlayerCTRL.SetFacingDir(CharacterFacing.FACE_LEFT);
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            _mPlayerController.SetFacingDir(CharacterFacing.FACE_RIGHT);
+            _mPlayerCTRL.SetFacingDir(CharacterFacing.FACE_RIGHT);
+        }
+        else if (Input.GetKey(KeyCode.K))
+        {
+            Debug.Log("Key K");
+            Scenes.instance.LoadScene(Scenes.Scene.GAME_OVER);
         }
         else
         {
-            _mPlayerController.SetFacingDir(CharacterFacing.FACE_CENTRE);
+            _mPlayerCTRL.SetFacingDir(CharacterFacing.FACE_CENTRE);
         }
 
         if (Input.GetKey(KeyCode.Space))
         {
-            CharacterFacing playerDir = _mPlayerController.GetFacingDir();
+            CharacterFacing playerDir = _mPlayerCTRL.GetFacingDir();
             if (playerDir != CharacterFacing.FACE_CENTRE && playerDir != _mCompatibleClimbDir)
             {
                 ReleasePlayer();
@@ -89,8 +94,8 @@ public class LedgeEdgeController : MonoBehaviour
     private void ReleasePlayer()
     {
         Debug.Log("Releasing");
-        _mPlayerController.SetPlayerPossessed(false);
-        _mPlayerController = null;
+        _mPlayerCTRL.SetPlayerPossessed(false);
+        _mPlayerCTRL = null;
     }
 
     private void ClimbLedge()
@@ -100,12 +105,12 @@ public class LedgeEdgeController : MonoBehaviour
         if (_mClimbTimeProgess < _mSecondsToClimbUp)
         {
             float progress = (_mSecondsToClimbUp - _mClimbTimeProgess) / _mSecondsToClimbUp;
-            _mPlayerController.GetComponent<Rigidbody>().MovePosition(Vector3.Lerp(_mClimbUpPos, _mClimbStartPos, progress));
+            _mPlayerCTRL.GetComponent<Rigidbody>().MovePosition(Vector3.Lerp(_mClimbUpPos, _mClimbStartPos, progress));
         }
         else if (_mClimbTimeProgess < _mSecondsToClimb)
         {
             float progress = (_mSecondsToClimbOver - (_mClimbTimeProgess - _mSecondsToClimbUp)) / _mSecondsToClimbOver;
-            _mPlayerController.GetComponent<Rigidbody>().MovePosition(Vector3.Lerp(_mClimbSidePos, _mClimbUpPos, progress));
+            _mPlayerCTRL.GetComponent<Rigidbody>().MovePosition(Vector3.Lerp(_mClimbSidePos, _mClimbUpPos, progress));
         }
 
         if (_mClimbTimeProgess > _mSecondsToClimb)
@@ -121,15 +126,15 @@ public class LedgeEdgeController : MonoBehaviour
         Debug.Log("Ledge Hit");
         if (other.gameObject.tag == "Player")
         {
-            _mPlayerController = other.gameObject.GetComponent<PlayerController>();
-            if (_mPlayerController != null)
+            _mPlayerCTRL = other.gameObject.GetComponent<PlayerCTRL>();
+            if (_mPlayerCTRL != null)
             {
-                _mPlayerController.SetPlayerPossessed(true);
-                _mPlayerRigidBdy = _mPlayerController.GetComponent<Rigidbody>();
+                _mPlayerCTRL.SetPlayerPossessed(true);
+                _mPlayerRigidBdy = _mPlayerCTRL.GetComponent<Rigidbody>();
                 _mPlayerRigidBdy.velocity = Vector3.zero;
-                _mPlayerController.transform.position = _mClimbStartPos;
-                _mPlayerController.SetFacingDir(CharacterFacing.FACE_CENTRE);
-                _mPlayerHeight = _mPlayerController.GetComponent<CapsuleCollider>().height;
+                _mPlayerCTRL.transform.position = _mClimbStartPos;
+                _mPlayerCTRL.SetFacingDir(CharacterFacing.FACE_CENTRE);
+                _mPlayerHeight = _mPlayerCTRL.GetComponent<CapsuleCollider>().height;
                 
                 _mClimbUpPos = transform.position;
                 _mClimbUpPos.y += 0.5f + (_mPlayerHeight / 2);

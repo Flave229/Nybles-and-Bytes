@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerCameraController : MonoBehaviour
 {
     [SerializeField]
-    private PlayerController _mPlayerController;
+    private PlayerCTRL _mPlayerController;
     [SerializeField]
     private float _mLoftRightOffset;
 
@@ -42,5 +42,10 @@ public class PlayerCameraController : MonoBehaviour
         Vector3 difference = targetPos - transform.position;
         float differenceMag = difference.magnitude;
         transform.position += (difference * differenceMag) * Time.deltaTime;
+    }
+
+    public void SetTargetPlayerObject(PlayerCTRL newTarget)
+    {
+        _mPlayerController = newTarget;
     }
 }

@@ -11,16 +11,15 @@ public enum CharacterFacing
     FACE_CENTRE = 4
 }
 
-public class PlayerController : MonoBehaviour
+public class PlayerCTRL : MonoBehaviour
 {
     [SerializeField]
     private float _mMoveForce;
     [SerializeField]
-    private float _mJumpForce;
-    [SerializeField]
     private CharacterFacing _mFacingDirection;
     private Rigidbody _mRigidBody;
     private bool _mIsPossessed;
+    private bool _mIsControlledByUser = true;
 
     // Use this for initialization
     void Start()
@@ -28,16 +27,20 @@ public class PlayerController : MonoBehaviour
         _mRigidBody = GetComponent<Rigidbody>();
     }
 
-
-    void Update()
-    {
-        if (_mIsPossessed) return;
-    }
-
-
     void FixedUpdate()
     {
         if (_mIsPossessed) return;
+
+        // artificial gravity stronger than regular gravity
+        _mRigidBody.AddForce(Vector3.down * 20.0f * _mRigidBody.mass);
+        
+        if (!_mIsControlledByUser) return;
+
+        if (Input.GetKey(KeyCode.K))
+        {
+            Debug.Log("Key K");
+            Scenes.instance.LoadScene(Scenes.Scene.GAME_OVER);
+        }
 
         float leftRight = Input.GetAxis("Horizontal");
         if (leftRight != 0)
@@ -45,8 +48,6 @@ public class PlayerController : MonoBehaviour
             _mFacingDirection = leftRight > 0 ? CharacterFacing.FACE_RIGHT : CharacterFacing.FACE_LEFT;
             _mRigidBody.MovePosition(this.transform.position + (new Vector3(leftRight * _mMoveForce, 0.0f, 0.0f) * Time.deltaTime));
         }
-
-        _mRigidBody.AddForce(Vector3.down * 20.0f * _mRigidBody.mass);// artificial gravity stronger than regular gravity
     }
 
     public void SetFacingDir(CharacterFacing dir)
@@ -62,5 +63,10 @@ public class PlayerController : MonoBehaviour
     public void SetPlayerPossessed(bool possessed)
     {
         _mIsPossessed = possessed;
+    }
+
+    public void SetUserControlEnabled(bool state)
+    {
+        _mIsControlledByUser = state;
     }
 }
