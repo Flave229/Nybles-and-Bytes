@@ -65,6 +65,11 @@ public class LedgeEdgeController : MonoBehaviour
         {
             _mPlayerController.SetFacingDir(CharacterFacing.FACE_RIGHT);
         }
+        else if (Input.GetKey(KeyCode.K))
+        {
+            Debug.Log("Key K");
+            Scenes.instance.LoadScene(Scenes.Scene.GAME_OVER);
+        }
         else
         {
             _mPlayerController.SetFacingDir(CharacterFacing.FACE_CENTRE);
