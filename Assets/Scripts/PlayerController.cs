@@ -37,6 +37,12 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (Input.GetKey(KeyCode.K))
+        {
+            Debug.Log("Key K");
+            Scenes.instance.LoadScene(Scenes.Scene.GAME_OVER);
+        }
+
         if (_mIsPossessed) return;
 
         float leftRight = Input.GetAxis("Horizontal");
