@@ -18,6 +18,8 @@ namespace Assets.Scripts.AI.TaskSystem
             _player = player;
             _seekTo = seekLocation;
             _movementPath = new List<Node>();
+            _started = false;
+            _complete = false;
         }
 
         public void Execute()
