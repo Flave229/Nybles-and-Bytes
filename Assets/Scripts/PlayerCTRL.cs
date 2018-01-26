@@ -33,8 +33,14 @@ public class PlayerCTRL : MonoBehaviour
 
         // artificial gravity stronger than regular gravity
         _mRigidBody.AddForce(Vector3.down * 20.0f * _mRigidBody.mass);
-
+        
         if (!_mIsControlledByUser) return;
+
+        if (Input.GetKey(KeyCode.K))
+        {
+            Debug.Log("Key K");
+            Scenes.instance.LoadScene(Scenes.Scene.GAME_OVER);
+        }
 
         float leftRight = Input.GetAxis("Horizontal");
         if (leftRight != 0)
