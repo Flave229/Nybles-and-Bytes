@@ -7,27 +7,29 @@ namespace Assets.Scripts.AI.TaskSystem
     {
         private IMovementAI _movementAI;
         private List<Node> _movementPath;
-        private PlayerController _player;
+        private Enemy _character;
         private Vector2 _seekTo;
         private bool _complete;
         private bool _started;
 
-        public SeekTask(IMovementAI movementAI, PlayerController player, Vector2 seekLocation)
+        public SeekTask(IMovementAI movementAI, Enemy character, Vector2 seekLocation)
         {
             _movementAI = movementAI;
-            _player = player;
+            _character = character;
             _seekTo = seekLocation;
             _movementPath = new List<Node>();
+            _started = false;
+            _complete = false;
         }
 
         public void Execute()
         {
             if (_started == false)
             {
-                float distanceHeuristic = Vector2.Distance(_player.transform.position, _seekTo);
+                float distanceHeuristic = Vector2.Distance(_character.transform.position, _seekTo);
                 Node source = new Node
                 {
-                    Position = _player.transform.position,
+                    Position = _character.transform.position,
                     CurrentCost = 0.0f,
                     Heuristic = distanceHeuristic,
                     TotalCost = distanceHeuristic
@@ -59,7 +61,7 @@ namespace Assets.Scripts.AI.TaskSystem
 
         private bool CheckIfAtNextNode()
         {
-            Vector3 playerPosition = _player.transform.position;
+            Vector3 playerPosition = _character.transform.position;
             Vector2 nextNodePosition = _movementPath[_movementPath.Count - 1].Position;
             if (playerPosition.x - 3 < nextNodePosition.x &&
                 playerPosition.x + 3 > nextNodePosition.x &&

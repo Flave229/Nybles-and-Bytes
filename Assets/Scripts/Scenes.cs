@@ -17,7 +17,7 @@ public class Scenes : MonoBehaviour
 
     private void OnEnable()
     {
-    //    instance = this;
+        instance = this;
     }
 
     public string GetSceneName(Scene scene)
