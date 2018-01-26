@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Lift : MonoBehaviour
 {
-	private PlayerController PC;
+	private PlayerCTRL PC;
 	public GameObject DestinationDoor;
 	bool bActive;
 	public float LiftAcceleration;
@@ -15,7 +13,7 @@ public class Lift : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		PC = FindObjectOfType<PlayerController>();
+		PC = FindObjectOfType<PlayerCTRL>();
 
 		if (DestinationDoor.transform.position.y > transform.position.y)
 		{
