@@ -55,9 +55,13 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
         if (Input.GetKey(KeyCode.E))
         {
             List<Lift> lifts = FindObjectsOfType<Lift>().OfType<Lift>().ToList();
+            List<Switch> switches = FindObjectsOfType<Switch>().OfType<Switch>().ToList();
 
             foreach (Lift lift in lifts)
                 lift.Travel(this, transform);
+
+            foreach (Switch button in switches)
+                button.Press(transform);
         }
         
         float leftRight = Input.GetAxis("Horizontal");

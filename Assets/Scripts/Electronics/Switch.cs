@@ -12,6 +12,15 @@ namespace Assets.Scripts
         List<ICircuitComponent> PrevCircuitComponents = new List<ICircuitComponent>();
         List<ICircuitComponent> NextCircuitComponents = new List<ICircuitComponent>();
 
+        void Start()
+        {
+            foreach (GameObject prevObject in PrevGameObjects)
+                PrevCircuitComponents.Add(prevObject.GetComponent<ICircuitComponent>());
+
+            foreach (GameObject nextObject in NextGameObjects)
+                NextCircuitComponents.Add(nextObject.GetComponent<ICircuitComponent>());
+        }
+
         public void Execute()
         {
             if (Enabled == false)
@@ -20,6 +29,17 @@ namespace Assets.Scripts
             foreach(ICircuitComponent connectedComponent in NextCircuitComponents)
             {
                 connectedComponent.Execute();
+            }
+        }
+
+        public void Press(Transform characterTransform)
+        {
+            if ((characterTransform.position.y - 2.0f < transform.position.y) &&
+                characterTransform.position.y + 2.0f > transform.position.y &&
+                characterTransform.localPosition.x > transform.localPosition.x - 1.0f && characterTransform.localPosition.x < transform.localPosition.x + 1.0f)
+            {
+                Enabled = true;
+                Execute();
             }
         }
 
