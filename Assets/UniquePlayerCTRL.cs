@@ -14,8 +14,7 @@ public class UniquePlayerCTRL : MonoBehaviour
     private int _mCloneIndex;
 
     private void Awake()
-    {
-        //ofc_mRefToMyself.DetectableBehaviour = new PlayerDetected();        
+    {      
     }
 
     // Use this for initialization
@@ -25,6 +24,7 @@ public class UniquePlayerCTRL : MonoBehaviour
         _mRefToMyself = this.GetComponent<PlayerCTRL>();
         _mListOfPlayers = new List<PlayerCTRL>();
         _mListOfPlayers.Add(_mRefToMyself);
+        _mRefToMyself.DetectableBehaviour = new PlayerDetected();
     }
 
     // Update is called once per frame
@@ -79,4 +79,9 @@ public class UniquePlayerCTRL : MonoBehaviour
 		_mListOfPlayers.Add(tempRefPlayerCTRL);
 		tempRefPlayerCTRL.SetUserControlEnabled(false);
 	}
+
+    public void DetectedByCamera()
+    {
+        _mRefToMyself.DetectableBehaviour.Detected();
+    }
 }
