@@ -10,7 +10,7 @@ namespace Assets.Scripts.AI
 
         public AIDirector()
         {
-            DoorNodes = Object.FindObjectsOfType<UnityAINode>().Select(x => x.AINode).OfType<Node>().ToList();
+            DoorNodes = Object.FindObjectsOfType<Lift>().Select(x => x.PathfindNode).OfType<Node>().ToList();
         }
 
         public void Update()

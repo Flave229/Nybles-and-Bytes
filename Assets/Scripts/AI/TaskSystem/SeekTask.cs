@@ -44,8 +44,29 @@ namespace Assets.Scripts.AI.TaskSystem
                 };
 
                 // TODO: Need to add connected nodes to the source and target nodes. Can't do this until doors are done. 
+                List<Node> nodes = GameManager.Instance().AiDirector.DoorNodes;
+
+                // Find all doors on same y and connect it to source
+                foreach(Node node in nodes)
+                {
+                    if (node.Position.y - 2 < source.Position.y &&
+                        node.Position.y + 2 > source.Position.y)
+                    {
+                        source.ConnectingNodes.Add(node);
+                    }
+
+                    if (node.Position.y - 2 < target.Position.y &&
+                        node.Position.y + 2 > target.Position.y)
+                    {
+                        target.ConnectingNodes.Add(node);
+                    }
+                }
+
                 _movementPath = _movementAI.CreatePath(source, target);
+                _started = true;
             }
+
+            //_character.RigidBody.MovePosition(_character.transform.position + (new Vector3(leftRight * _mMoveForce, 0.0f, 0.0f) * Time.deltaTime));
 
             if (CheckIfAtNextNode() == false)
                 return;

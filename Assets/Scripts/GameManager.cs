@@ -5,16 +5,35 @@ namespace Assets.Scripts
 {
     public class GameManager : MonoBehaviour
     {
-        private AIDirector _aiDirector;
+        public AIDirector AiDirector;
+        private static GameManager _instance;
+
+        private GameManager() { }
+
+        public static GameManager Instance()
+        {
+            return _instance ?? (_instance = new GameManager());
+        }
 
         void Awake()
         {
-            _aiDirector = new AIDirector();
+            if (_instance != null && _instance != this)
+                Destroy(this.gameObject);
+            else
+            {
+                _instance = this;
+                DontDestroyOnLoad(this.gameObject);
+            }
+        }
+
+        void Start()
+        {
+            AiDirector = new AIDirector();
         }
 
         void Update()
         {
-            _aiDirector.Update();
+            AiDirector.Update();
         }
     }
 }
