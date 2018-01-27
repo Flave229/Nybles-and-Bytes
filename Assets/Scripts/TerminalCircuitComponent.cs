@@ -44,7 +44,7 @@ public class TerminalCircuitComponent : MonoBehaviour, ICircuitComponents
 
 	public List<ICircuitComponents> SeekPrev()
 	{
-		return NextCircuitComponents;
+		return PrevCircuitComponents;
 	}
 
 	public void Execute()
@@ -82,6 +82,11 @@ public class TerminalCircuitComponent : MonoBehaviour, ICircuitComponents
 		for (int i = 0; i < NextCircuitComponents.Count; i++) 
 		{
 			ICC.AddRange(NextCircuitComponents [i].Peek());
+		}
+
+		for (int i = 0; i < PrevCircuitComponents.Count; i++) 
+		{
+			ICC.AddRange(PrevCircuitComponents [i].Peek());
 		}
 
 		ICC.Add (this);
