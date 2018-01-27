@@ -16,25 +16,19 @@ public class WireRenderer : MonoBehaviour
     void Start()
     {
         _mCircuitComp = GetComponent<WireCircuitComponent>();
-        if (_mCircuitComp.SeekPrev().Count > 0 && _mCircuitComp.SeekNext().Count > 0)
-        {
-            _mLineDrawer = gameObject.AddComponent<LineRenderer>();
 
-            Keyframe[] width = new Keyframe[2];
-            width[0] = new Keyframe(0.0f, _mWidth);
-            width[1] = new Keyframe(1.0f, _mWidth);
+        _mLineDrawer = gameObject.AddComponent<LineRenderer>();
 
-            _mLineDrawer.enabled = true;
-            _mLineDrawer.material = _mWireMaterial;
-            _mLineDrawer.startWidth = _mWidth;
-            _mLineDrawer.startWidth = _mWidth;
-            _mLineDrawer.endWidth = _mWidth;
-            //_mLineDrawer.widthCurve = new AnimationCurve(width);
-        }
-        else
-        {
-            Debug.Log("ABORT");
-        }
+        Keyframe[] width = new Keyframe[2];
+        width[0] = new Keyframe(0.0f, _mWidth);
+        width[1] = new Keyframe(1.0f, _mWidth);
+
+        _mLineDrawer.enabled = true;
+        _mLineDrawer.material = _mWireMaterial;
+        _mLineDrawer.startWidth = _mWidth;
+        _mLineDrawer.startWidth = _mWidth;
+        _mLineDrawer.endWidth = _mWidth;
+        //_mLineDrawer.widthCurve = new AnimationCurve(width);
     }
 
     void Update()
