@@ -4,33 +4,61 @@ using UnityEngine;
 
 public class TerminalManager : MonoBehaviour
 {
-	Terminal[] terminalArray = null;
-	Camera Camera = null;
+	Terminal[] TerminalArray = null;
+	PlayerCameraController CameraController;
+    bool FollowPlayerToggle = true;
+    int CurrentTerminal = 0;
 
-	void Start ()
+    void Start ()
     {
-		terminalArray = Object.FindObjectsOfType(typeof(Terminal)) as Terminal[];
-		Camera = Object.FindObjectOfType (typeof(Camera)) as Camera;
+		TerminalArray = Object.FindObjectsOfType(typeof(Terminal)) as Terminal[];
+		CameraController = Object.FindObjectOfType (typeof(PlayerCameraController)) as PlayerCameraController;
     }
 	
 	void Update ()
     {
-		for (int i = 0; i < terminalArray.Length; i++) 
+		for (int i = 0; i < TerminalArray.Length; i++) 
 		{
-			Terminal terminal = terminalArray[i];
+			Terminal terminal = TerminalArray[i];
 
-			if (terminal.IsPlayerColliding && Input.GetKeyDown(KeyCode.F))
+			if (terminal.IsPlayerColliding)
 			{
-				MoveCameraTo (terminalArray[1]);
+				if (Input.GetKeyDown(KeyCode.F)) 
+				{
+					CurrentTerminal = 0;
+					FollowPlayerToggle = !FollowPlayerToggle;
+					CameraController.FollowPlayer(FollowPlayerToggle);
+				}
+
+				if (Input.GetKeyDown (KeyCode.Comma) && !FollowPlayerToggle) 
+				{
+					CurrentTerminal -= 1;
+
+					if (CurrentTerminal <= 0) 
+					{
+						CurrentTerminal = 0;
+					}
+
+					MoveCameraTo(TerminalArray[CurrentTerminal]);
+				}
+				else if (Input.GetKeyDown (KeyCode.Period) && !FollowPlayerToggle) 
+				{
+					CurrentTerminal += 1;
+
+					if (CurrentTerminal >= TerminalArray.Length)
+					{
+						CurrentTerminal = TerminalArray.Length - 1;
+					}
+
+					MoveCameraTo(TerminalArray[CurrentTerminal]);
+				}
 			}
 		}
+
 	}
 
 	void MoveCameraTo(Terminal terminal)
 	{
-		Vector3 terminalVec3 = terminal.transform.position;
-		terminalVec3.z = Camera.transform.position.z;
-		Camera.transform.position = terminalVec3;
-		Debug.Log ("X: " + terminalVec3.x + "Y: " + terminalVec3.y + "Z: " + terminalVec3.z);
+		CameraController.SetTargetPos(terminal.transform.position);
 	}
 }

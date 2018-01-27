@@ -2,7 +2,6 @@
 
 public class Terminal : MonoBehaviour
 {
-    public string TerminalName;
     public GameObject ThisTerminal;
 	public bool IsPlayerColliding;
 
@@ -20,7 +19,7 @@ public class Terminal : MonoBehaviour
 
 	void OnTriggerEnter(Collider col)
 	{
-		if (col.gameObject.tag == "Player") 
+		if (col.gameObject.tag == "Player_Unique") 
 		{
 			IsPlayerColliding = true;
 		}
@@ -28,7 +27,7 @@ public class Terminal : MonoBehaviour
 
 	void OnTriggerExit(Collider col)
 	{
-		if (col.gameObject.tag == "Player") 
+		if (col.gameObject.tag == "Player_Unique") 
 		{
 			IsPlayerColliding = false;
 		}

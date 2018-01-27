@@ -9,6 +9,9 @@ public class PlayerCameraController : MonoBehaviour
     [SerializeField]
     private float _mLoftRightOffset;
 
+	private bool _mIsFollowingPlayer = true;
+    private Vector3 _mTargetPos = Vector3.zero;
+
     // Use this for initialization
     void Start()
     {
@@ -19,27 +22,36 @@ public class PlayerCameraController : MonoBehaviour
     void FixedUpdate()
     {
         CharacterFacing facing = _mPlayerController.GetFacingDir();
-        Vector3 targetPos = _mPlayerController.GetComponent<Transform>().position;
-        targetPos.z = this.transform.position.z;
+		if(_mIsFollowingPlayer)
+		{
+			_mTargetPos = _mPlayerController.GetComponent<Transform>().position;
 
-        if (facing == CharacterFacing.FACE_LEFT)
-        {
-            targetPos.x -= _mLoftRightOffset;
-        }
-        else if (facing == CharacterFacing.FACE_RIGHT)
-        {
-            targetPos.x += _mLoftRightOffset;
-        }
-        if (facing == CharacterFacing.FACE_UP)
-        {
-            targetPos.y += _mLoftRightOffset;
-        }
-        else if (facing == CharacterFacing.FACE_DOWN)
-        {
-            targetPos.y -= _mLoftRightOffset;
-        }
+        	if (facing == CharacterFacing.FACE_LEFT)
+        	{
+        	    _mTargetPos.x -= _mLoftRightOffset;
+        	}
+        	else if (facing == CharacterFacing.FACE_RIGHT)
+        	{
+        	    _mTargetPos.x += _mLoftRightOffset;
+        	}
+			
+			
+        	if (facing == CharacterFacing.FACE_UP)
+        	{
+        	    _mTargetPos.y += _mLoftRightOffset;
+        	}
+        	else if (facing == CharacterFacing.FACE_DOWN)
+        	{
+        	    _mTargetPos.y -= _mLoftRightOffset;
+        	}
+		}
+		else
+		{
+			
+		}
+		_mTargetPos.z = this.transform.position.z;
 
-        Vector3 difference = targetPos - transform.position;
+        Vector3 difference = _mTargetPos - transform.position;
         float differenceMag = difference.magnitude;
         transform.position += (difference * differenceMag) * Time.deltaTime;
     }
@@ -47,5 +59,15 @@ public class PlayerCameraController : MonoBehaviour
     public void SetTargetPlayerObject(PlayerCTRL newTarget)
     {
         _mPlayerController = newTarget;
+    }
+
+	public void FollowPlayer(bool followPlayer)
+	{
+        _mIsFollowingPlayer = followPlayer;
+    }
+
+	public void SetTargetPos(Vector3 target)
+	{
+        _mTargetPos = target;
     }
 }
