@@ -81,7 +81,7 @@ public class UniquePlayerCTRL : MonoBehaviour
 
 		_mListOfPlayers[_mCloneIndex].SetUserControlEnabled(false);
 
-		_mCloneIndex++;
+		_mCloneIndex = _mListOfPlayers.Count - 1;
 
 		_mCamera.SetTargetPlayerObject(_mListOfPlayers[_mCloneIndex]);
 		_mListOfPlayers[_mCloneIndex].SetUserControlEnabled(true);
