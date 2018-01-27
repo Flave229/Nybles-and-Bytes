@@ -1,0 +1,16 @@
+﻿using Assets.Scripts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Assets
+{
+    class PlayerDetected : IDetectable
+    {
+        public void Detected()
+        {
+            Scenes.instance.LoadScene(Scenes.Scene.GAME_OVER);
+        }
+    }
+}
