@@ -1,10 +1,8 @@
-﻿using Assets;
-using Assets.Scripts;
-using System.Collections;
+﻿using Assets.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Security_Camera : MonoBehaviour
+public class Security_Camera : MonoBehaviour, ICircuitComponent
 {
     public int detectDistance;
 
@@ -12,8 +10,39 @@ public class Security_Camera : MonoBehaviour
     private Collider[] cols;
     private int _mCloneIndex;
 
+    public bool Enabled;
+
+    public GameObject PrevGameObject;
+    ICircuitComponent PrevCircuitComponent;
+
     [SerializeField]
     private PlayerCameraController _mCamera;
+
+    public void Execute()
+    {
+        Enabled = !Enabled;
+    }
+
+    public List<ICircuitComponent> Peek()
+    {
+        return new List<ICircuitComponent>
+        {
+            this
+        };
+    }
+
+    public List<ICircuitComponent> SeekNext()
+    {
+        return new List<ICircuitComponent>();
+    }
+
+    public List<ICircuitComponent> SeekPrev()
+    {
+        return new List<ICircuitComponent>
+        {
+            PrevCircuitComponent
+        };
+    }
 
     // Use this for initialization
     void Start()
@@ -61,7 +90,3 @@ public class Security_Camera : MonoBehaviour
         }
     }
 }
-
-
-
-
