@@ -1,35 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class Terminal : MonoBehaviour
+public class TerminalCollision : MonoBehaviour
 {
-    public GameObject ThisTerminal;
-	public bool IsPlayerColliding;
 
-	// Use this for initialization
-	void Start ()
-    {
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-		
-	}
-
-	void OnTriggerEnter(Collider col)
-	{
-		if (col.gameObject.name == "Player_Unique") 
-		{
-			IsPlayerColliding = true;
-		}
-	}
-
-	void OnTriggerExit(Collider col)
-	{
-		if (col.gameObject.name == "Player_Unique") 
-		{
-			IsPlayerColliding = false;
-		}
-	}
 }

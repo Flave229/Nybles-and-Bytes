@@ -1,20 +1,17 @@
-﻿using Assets.Scripts;
+﻿using Assets;
+using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Security_Camera : MonoBehaviour
 {
-
     public int detectDistance;
 
-    private GameObject player;
-    private PlayerCTRL playerCTRL;
-    private Vector3 playerPos;
     private Vector3 securityCameraPos;
     private Collider[] cols;
-    private GameManager _gameManager;
     private int _mCloneIndex;
+
     [SerializeField]
     private PlayerCameraController _mCamera;
 
@@ -22,22 +19,28 @@ public class Security_Camera : MonoBehaviour
     void Start()
     {
         //player = GameObject.Find("Player_Unique");
-        _gameManager = GameManager.Instance();
     }
 
     // Update is called once per frame
     void Update()
     {
-        securityCameraPos = this.transform.position;
+        securityCameraPos = transform.position;
         cols = Physics.OverlapSphere(securityCameraPos, detectDistance);
-
         foreach (Collider col in cols)
         {
             if (col != null)
-            {
+            {              
                 if (col.gameObject.GetComponent<UniquePlayerCTRL>() != null)
                 {
-                    col.gameObject.GetComponent<UniquePlayerCTRL>().DetectedByCamera();
+                    Vector3 targetDir = securityCameraPos - col.gameObject.transform.position;
+                    float angleToPlayer = (Vector3.Angle(targetDir, transform.up));
+                    
+                    if (angleToPlayer >= -45 && angleToPlayer <= 45)
+                    {
+                        Debug.DrawLine(securityCameraPos, col.gameObject.transform.position, Color.red);
+                        col.gameObject.GetComponent<UniquePlayerCTRL>().DetectedByCamera();
+                    } 
+                    
                     return;
                 }
                 else
@@ -45,18 +48,15 @@ public class Security_Camera : MonoBehaviour
                     // Clones
                     if (col.gameObject.GetComponent<PlayerCTRL>() != null)
                     {
-                        _mCloneIndex = GameManager.Instance().GetListOfEntities().Count - 1;
-                        GameObject tempRef = GameManager.Instance().GetListOfEntities()[_mCloneIndex].gameObject;
-                        GameManager.Instance().GetListOfEntities().RemoveAt(_mCloneIndex);
-                        Destroy(tempRef, 0.0f);
+                        col.gameObject.GetComponent<PlayerCTRL>().DetectableBehaviour.Detected();
 
+                        _mCloneIndex = GameManager.Instance().GetListOfEntities().Count - 1;
                         _mCloneIndex -= 1;
                         _mCamera.SetTargetPlayerObject(GameManager.Instance().GetListOfEntities()[_mCloneIndex]);
                         GameManager.Instance().GetListOfEntities()[_mCloneIndex].SetUserControlEnabled(true);
 
-                        break;
                     }
-                }
+                }                                
             }
         }
     }
