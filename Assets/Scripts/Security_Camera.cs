@@ -10,7 +10,6 @@ public class Security_Camera : MonoBehaviour
 
     private Vector3 securityCameraPos;
     private Collider[] cols;
-    private GameManager _gameManager;
     private int _mCloneIndex;
 
     [SerializeField]
@@ -20,7 +19,6 @@ public class Security_Camera : MonoBehaviour
     void Start()
     {
         //player = GameObject.Find("Player_Unique");
-        _gameManager = GameManager.Instance();
     }
 
     // Update is called once per frame
@@ -28,14 +26,21 @@ public class Security_Camera : MonoBehaviour
     {
         securityCameraPos = transform.position;
         cols = Physics.OverlapSphere(securityCameraPos, detectDistance);
-
         foreach (Collider col in cols)
         {
             if (col != null)
-            {
+            {              
                 if (col.gameObject.GetComponent<UniquePlayerCTRL>() != null)
                 {
-                    col.gameObject.GetComponent<UniquePlayerCTRL>().DetectedByCamera();
+                    Vector3 targetDir = securityCameraPos - col.gameObject.transform.position;
+                    float angleToPlayer = (Vector3.Angle(targetDir, transform.up));
+                    
+                    if (angleToPlayer >= -45 && angleToPlayer <= 45)
+                    {
+                        Debug.DrawLine(securityCameraPos, col.gameObject.transform.position, Color.red);
+                        col.gameObject.GetComponent<UniquePlayerCTRL>().DetectedByCamera();
+                    } 
+                    
                     return;
                 }
                 else
@@ -51,7 +56,7 @@ public class Security_Camera : MonoBehaviour
                         GameManager.Instance().GetListOfEntities()[_mCloneIndex].SetUserControlEnabled(true);
 
                     }
-                }
+                }                                
             }
         }
     }

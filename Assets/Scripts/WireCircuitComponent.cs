@@ -45,7 +45,7 @@ public class WireCircuitComponent : MonoBehaviour, ICircuitComponent
 
 	public List<ICircuitComponent> SeekPrev()
 	{
-		return NextCircuitComponents;
+		return PrevCircuitComponents;
 	}
 
 	public List<ICircuitComponent> Peek()
@@ -55,6 +55,11 @@ public class WireCircuitComponent : MonoBehaviour, ICircuitComponent
 		for (int i = 0; i < NextCircuitComponents.Count; i++) 
 		{
 			ICC.AddRange(NextCircuitComponents [i].Peek());
+		}
+
+		for (int i = 0; i < PrevCircuitComponents.Count; i++) 
+		{
+			ICC.AddRange(PrevCircuitComponents [i].Peek());
 		}
 
 		return ICC;
