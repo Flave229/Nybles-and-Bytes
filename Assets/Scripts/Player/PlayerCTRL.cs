@@ -40,11 +40,11 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
     void FixedUpdate()
     {
         if (_mIsPossessed) return;
-                
-        if (!_mIsControlledByUser) return;
 
         // artificial gravity stronger than regular gravity
         _mRigidBody.AddForce(Vector3.down * 20.0f * _mRigidBody.mass);
+
+        if (!_mIsControlledByUser) return;
 
         if (Input.GetKey(KeyCode.K))
         {
