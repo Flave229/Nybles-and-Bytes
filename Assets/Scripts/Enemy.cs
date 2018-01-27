@@ -18,11 +18,13 @@ namespace Assets.Scripts
         public Rigidbody RigidBody;
         public float MoveForce;
         private bool _possessed;
+        private bool _chasingPlayer;
 
         void Awake()
         {
             _patrolStart = transform.position;
             _patrolToEnd = true;
+            _chasingPlayer = false;
             _movementAI = new AStarPathfinding();    
         }
 
@@ -38,12 +40,17 @@ namespace Assets.Scripts
             if (_possessed)
                 return;
 
-            if (_player.transform.position.y - 2 < transform.position.y &&
+            if (_chasingPlayer == false && _player.transform.position.y - 2 < transform.position.y &&
                 _player.transform.position.y + 2 > transform.position.y &&
                 _player.transform.position.x - 5 < transform.position.x &&
                 _player.transform.position.x + 5 > transform.position.x)
             {
                 _executingTask = new ChaseTask(_player, this);
+            }
+            else if (_chasingPlayer)
+            {
+                _executingTask = new SeekTask(_movementAI, this, _patrolEnd);
+                _patrolToEnd = true;
             }
 
             RigidBody.AddForce(Vector3.down * 20.0f * RigidBody.mass);

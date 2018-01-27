@@ -73,7 +73,7 @@ namespace Assets.Scripts.AI.TaskSystem
             if (CheckIfAtNextNode() == false)
                 return;
 
-            if (_movementPath[_movementPath.Count - 1].Callback != null)
+            if (_movementPath.Count > 2 && _movementPath[_movementPath.Count - 1].Callback != null)
                 _movementPath[_movementPath.Count - 1].Callback.Execute();
 
             _movementPath.RemoveAt(_movementPath.Count - 1);
