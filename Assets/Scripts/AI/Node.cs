@@ -14,6 +14,7 @@ namespace Assets.Scripts.AI
         public float TotalCost { get; set; }
         public float CurrentCost { get; set; }
 
+
         public Node()
         {
             Id = Guid.NewGuid();

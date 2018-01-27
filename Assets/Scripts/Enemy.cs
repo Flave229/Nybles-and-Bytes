@@ -11,6 +11,7 @@ namespace Assets.Scripts
 
         public Rigidbody RigidBody;
         public Vector3 SeekPosition;
+        public float MoveForce;
 
         void Awake()
         {
