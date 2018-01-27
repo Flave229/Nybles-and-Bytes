@@ -8,7 +8,7 @@ public class Lift : MonoBehaviour, ICircuitComponent
 	private ICharacter _travellingCharacter;
     private Transform _travellingTransform;
     public GameObject DestinationDoor;
-    private bool _locked;
+    public bool Locked;
 	bool bActive;
 	public float LiftAcceleration;
 	public float LiftPeakSpeed;
@@ -21,7 +21,6 @@ public class Lift : MonoBehaviour, ICircuitComponent
 
     void Awake()
     {
-        _locked = false;
         PathfindNode = new Node
         {
             Position = transform.position,
@@ -49,6 +48,9 @@ public class Lift : MonoBehaviour, ICircuitComponent
 	
     public void Travel(ICharacter character, Transform characterTransform)
     {
+        if (Locked)
+            return;
+
         if (!bActive && (characterTransform.position.y == transform.position.y - 0.75f) && characterTransform.localPosition.x > transform.localPosition.x - 1.0f && characterTransform.localPosition.x < transform.localPosition.x + 1.0f)
         {
             bActive = true;
@@ -109,7 +111,7 @@ public class Lift : MonoBehaviour, ICircuitComponent
 
     public void Execute()
     {
-        _locked = !_locked;
-        DestinationDoor.GetComponent<Lift>()._locked = _locked;
+        Locked = !Locked;
+        DestinationDoor.GetComponent<Lift>().Locked = Locked;
     }
 }
