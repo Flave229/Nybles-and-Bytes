@@ -15,7 +15,8 @@ namespace Assets.Scripts.AI
 
         public void Update()
         {
-
+            if (DoorNodes.Count <= 0)
+                DoorNodes = Object.FindObjectsOfType<Lift>().Select(x => x.PathfindNode).OfType<Node>().ToList();
         }
     }
 }

@@ -19,8 +19,14 @@ namespace Assets.Scripts.AI.TaskSystem
 
         public void Execute()
         {
-            if (Vector2.Distance(_initialSpotLocation, new Vector2(_player.transform.position.x, _player.transform.position.y)) > 5)
+            float distanceEnemyPlayer = Vector2.Distance(_initialSpotLocation, new Vector2(_player.transform.position.x, _player.transform.position.y));
+            if (distanceEnemyPlayer > 5)
                 SetCompleted();
+            else if (distanceEnemyPlayer < 1)
+            {
+                SetCompleted();
+                _player.DetectableBehaviour.Detected();
+            }
             
             float leftRight = (_player.transform.position.x - _character.transform.position.x) > 0 ? 1 : -1;
             _character.RigidBody.MovePosition(_character.transform.position + (new Vector3(leftRight * Time.fixedDeltaTime * _character.MoveForce * 2, 0.0f, 0.0f) * Time.deltaTime));
