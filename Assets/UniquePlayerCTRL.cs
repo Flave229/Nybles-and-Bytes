@@ -15,7 +15,7 @@ public class UniquePlayerCTRL : MonoBehaviour
 
     private void Awake()
     {
-        _mRefToMyself.DetectableBehaviour = new PlayerDetected();        
+        //ofc_mRefToMyself.DetectableBehaviour = new PlayerDetected();        
     }
 
     // Use this for initialization
@@ -68,10 +68,15 @@ public class UniquePlayerCTRL : MonoBehaviour
         {
             Vector3 spawnPoint = _mListOfPlayers[_mCloneIndex].transform.position;
             spawnPoint.x += 5;
-            GameObject tempRef = Instantiate(_mClonePlayersRef, spawnPoint, transform.rotation);
-            PlayerCTRL tempRefPlayerCTRL = tempRef.GetComponent<PlayerCTRL>();
-            _mListOfPlayers.Add(tempRefPlayerCTRL);
-            tempRefPlayerCTRL.SetUserControlEnabled(false);
+			CreateClone (spawnPoint);
         }
     }
+
+	public void CreateClone(Vector3 spawnPoint)
+	{
+		GameObject tempRef = Instantiate(_mClonePlayersRef, spawnPoint, transform.rotation);
+		PlayerCTRL tempRefPlayerCTRL = tempRef.GetComponent<PlayerCTRL>();
+		_mListOfPlayers.Add(tempRefPlayerCTRL);
+		tempRefPlayerCTRL.SetUserControlEnabled(false);
+	}
 }
