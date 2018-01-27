@@ -24,7 +24,6 @@ public class Security_Camera : MonoBehaviour
     {
 
         securityCameraPos = this.transform.position;
-        //        objs = GameObject.FindGameObjectsWithTag("Player");
         cols = Physics.OverlapSphere(securityCameraPos, detectDistance);
 
         foreach (Collider col in cols)
@@ -33,7 +32,7 @@ public class Security_Camera : MonoBehaviour
             {
                 if (col.gameObject.GetComponent<UniquePlayerCTRL>() != null)
                 {
-                    //    col.gameObject.GetComponent<UniquePlayerCTRL>.Dect
+                    col.gameObject.GetComponent<UniquePlayerCTRL>().DetectedByCamera();
                     return;
                 }
                 else
