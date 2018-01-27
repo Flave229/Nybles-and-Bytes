@@ -17,6 +17,8 @@ public class Security_Camera : MonoBehaviour, ICircuitComponent
 
     [SerializeField]
     private PlayerCameraController _mCamera;
+    [SerializeField]
+    private Transform _lineOfSight;
 
     public void Execute()
     {
@@ -61,15 +63,21 @@ public class Security_Camera : MonoBehaviour, ICircuitComponent
         foreach (Collider col in cols)
         {
             if (col != null)
-            {              
+            {
+
                 if (col.gameObject.GetComponent<UniquePlayerCTRL>() != null)
                 {
-                    Vector3 targetDir = securityCameraPos - col.gameObject.transform.position;
-                    float angleToPlayer = (Vector3.Angle(targetDir, transform.up));
+                    Vector2 targetDir = col.gameObject.transform.position - transform.position;
+                   // Debug.DrawLine(transform.position, col.gameObject.transform.position, Color.green);
+
+                    Vector2 lineOfSight = _lineOfSight.position - transform.position;
+                    Debug.DrawLine(transform.position, _lineOfSight.position, Color.red);
+
+                    float angleToPlayer = Vector2.Angle(targetDir, lineOfSight);
                     
-                    if (angleToPlayer >= -45 && angleToPlayer <= 45)
+                    if (angleToPlayer < 65)
                     {
-                        Debug.DrawLine(securityCameraPos, col.gameObject.transform.position, Color.red);
+                        Debug.DrawLine(transform.position, col.gameObject.transform.position, Color.green);
                         col.gameObject.GetComponent<UniquePlayerCTRL>().DetectedByCamera();
                     } 
                     
