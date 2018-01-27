@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Commands;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.AI.TaskSystem
@@ -48,6 +49,7 @@ namespace Assets.Scripts.AI.TaskSystem
                 // Find all doors on same y and connect it to source
                 foreach(Node node in nodes)
                 {
+                    node.Callback = new PlayerTravelThroughDoor(node.Owner.GetComponent<Lift>(), _character);
                     if (node.Position.y - 2 < source.Position.y &&
                         node.Position.y + 2 > source.Position.y)
                     {
@@ -72,6 +74,9 @@ namespace Assets.Scripts.AI.TaskSystem
             if (CheckIfAtNextNode() == false)
                 return;
 
+            if (_movementPath[_movementPath.Count - 1].Callback != null)
+                _movementPath[_movementPath.Count - 1].Callback.Execute();
+
             _movementPath.RemoveAt(_movementPath.Count - 1);
             
             if (_movementPath.Count <= 0)
@@ -85,8 +90,8 @@ namespace Assets.Scripts.AI.TaskSystem
         {
             Vector3 playerPosition = _character.transform.position;
             Vector2 nextNodePosition = _movementPath[_movementPath.Count - 1].Position;
-            if (playerPosition.x - 3 < nextNodePosition.x &&
-                playerPosition.x + 3 > nextNodePosition.x &&
+            if (playerPosition.x - 1 < nextNodePosition.x &&
+                playerPosition.x + 1 > nextNodePosition.x &&
                 playerPosition.y - 2 < nextNodePosition.y &&
                 playerPosition.y + 2 > nextNodePosition.y)
             {

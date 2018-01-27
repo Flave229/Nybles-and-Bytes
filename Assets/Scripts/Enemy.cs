@@ -25,8 +25,10 @@ namespace Assets.Scripts
             _executingTask = new SeekTask(_movementAI, this, SeekPosition);
         }
 
-        void Update()
+        void FixedUpdate()
         {
+            if (_possessed) return;
+
             RigidBody.AddForce(Vector3.down * 20.0f * RigidBody.mass);
 
             if (_executingTask.IsComplete() == false)

@@ -19,7 +19,8 @@ public class Lift : MonoBehaviour
     {
         PathfindNode = new Node
         {
-            Position = transform.position
+            Position = transform.position,
+            Owner = this.gameObject
         };
     }
 

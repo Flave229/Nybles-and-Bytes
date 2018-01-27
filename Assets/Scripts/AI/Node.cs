@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Event;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +14,8 @@ namespace Assets.Scripts.AI
         public float Heuristic { get; set; }
         public float TotalCost { get; set; }
         public float CurrentCost { get; set; }
-
+        public ICommand Callback { get; set; }
+        public GameObject Owner { get; set; }
 
         public Node()
         {
