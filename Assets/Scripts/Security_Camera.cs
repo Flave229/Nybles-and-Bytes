@@ -15,6 +15,7 @@ public class Security_Camera : MonoBehaviour
     private Collider[] cols;
     private GameManager _gameManager;
     private int _mCloneIndex;
+    [SerializeField]
     private PlayerCameraController _mCamera;
 
     // Use this for initialization
@@ -42,15 +43,18 @@ public class Security_Camera : MonoBehaviour
                 else
                 {
                     // Clones
-                    GameObject tempRef = _gameManager.GetListOfEntities()[_mCloneIndex].gameObject;
-                    _gameManager.GetListOfEntities().Remove(_gameManager.GetListOfEntities()[_mCloneIndex]);
-                    Destroy(tempRef, 0.0f);
+                    if (col.gameObject.GetComponent<PlayerCTRL>() != null)
+                    {
+                        _mCloneIndex = GameManager.Instance().GetListOfEntities().Count - 1;
+                        GameObject tempRef = GameManager.Instance().GetListOfEntities()[_mCloneIndex].gameObject;
+                        GameManager.Instance().GetListOfEntities().Remove(GameManager.Instance().GetListOfEntities()[_mCloneIndex]);
+                        Destroy(tempRef, 0.0f);
 
-                    _mCloneIndex -= 1;
-                    _mCamera.SetTargetPlayerObject(_gameManager.GetListOfEntities()[_mCloneIndex]);
-                    _gameManager.GetListOfEntities()[_mCloneIndex].SetUserControlEnabled(true);
+                        _mCloneIndex -= 1;
+                        _mCamera.SetTargetPlayerObject(GameManager.Instance().GetListOfEntities()[_mCloneIndex]);
+                        GameManager.Instance().GetListOfEntities()[_mCloneIndex].SetUserControlEnabled(true);
+                    }
                 }
-
             }
         }
     }

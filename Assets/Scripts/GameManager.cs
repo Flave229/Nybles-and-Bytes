@@ -8,7 +8,7 @@ namespace Assets.Scripts
     {
         public AIDirector AiDirector;
         private static GameManager _instance;
-        private List<PlayerCTRL> _mListOfPlayers;
+        private static List<PlayerCTRL> _mListOfPlayers;
 
         private GameManager() { }
 
@@ -41,6 +41,9 @@ namespace Assets.Scripts
 
         public void AddEntityToList(PlayerCTRL entity)
         {
+            if (_mListOfPlayers == null)
+                _mListOfPlayers = new List<PlayerCTRL>();
+
             _mListOfPlayers.Add(entity);
         }
 
