@@ -9,6 +9,7 @@ namespace Assets.Scripts
         private ITask _executingTask;
         private IMovementAI _movementAI;
 
+        public Rigidbody RigidBody;
         public Vector3 SeekPosition;
 
         void Awake()
@@ -18,11 +19,14 @@ namespace Assets.Scripts
 
         void Start()
         {
+            RigidBody = GetComponent<Rigidbody>();
             _executingTask = new SeekTask(_movementAI, this, SeekPosition);
         }
 
         void Update()
         {
+            RigidBody.AddForce(Vector3.down * 20.0f * RigidBody.mass);
+
             if (_executingTask.IsComplete() == false)
                 _executingTask.Execute();
         }

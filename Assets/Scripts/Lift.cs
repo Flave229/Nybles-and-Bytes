@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.AI;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class Lift : MonoBehaviour
 {
@@ -9,9 +11,18 @@ public class Lift : MonoBehaviour
 	public float LiftPeakSpeed;
 	private float LiftCurrentSpeed;
 	private int Direction;
+    public Node PathfindNode;
 
-	// Use this for initialization
-	void Start()
+    void Awake()
+    {
+        PathfindNode = new Node
+        {
+            Position = transform.position
+        };
+    }
+
+    // Use this for initialization
+    void Start()
 	{
 		PC = FindObjectOfType<PlayerCTRL>();
 
@@ -23,6 +34,11 @@ public class Lift : MonoBehaviour
 		{
 			Direction = -1;
 		}
+
+        PathfindNode.ConnectingNodes = new List<Node>
+        {
+            DestinationDoor.GetComponent<Lift>().PathfindNode
+        };
 	}
 	
 	// Update is called once per frame
