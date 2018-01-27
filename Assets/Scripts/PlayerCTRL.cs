@@ -11,29 +11,19 @@ public enum CharacterFacing
     FACE_CENTRE = 4
 }
 
+
 public class PlayerCTRL : MonoBehaviour
 {
     [SerializeField]
-    private float _mMoveForce;
-    [SerializeField]
     private CharacterFacing _mFacingDirection;
-    private Rigidbody _mRigidBody;
     private bool _mIsPossessed;
     private bool _mIsControlledByUser = true;
 
-    // Use this for initialization
-    void Start()
-    {
-        _mRigidBody = GetComponent<Rigidbody>();
-    }
 
     void FixedUpdate()
     {
         if (_mIsPossessed) return;
-
-        // artificial gravity stronger than regular gravity
-        _mRigidBody.AddForce(Vector3.down * 20.0f * _mRigidBody.mass);
-        
+                
         if (!_mIsControlledByUser) return;
 
         if (Input.GetKey(KeyCode.K))
@@ -41,13 +31,10 @@ public class PlayerCTRL : MonoBehaviour
             Debug.Log("Key K");
             Scenes.instance.LoadScene(Scenes.Scene.GAME_OVER);
         }
-
+        
         float leftRight = Input.GetAxis("Horizontal");
         if (leftRight != 0)
-        {
             _mFacingDirection = leftRight > 0 ? CharacterFacing.FACE_RIGHT : CharacterFacing.FACE_LEFT;
-            _mRigidBody.MovePosition(this.transform.position + (new Vector3(leftRight * _mMoveForce, 0.0f, 0.0f) * Time.deltaTime));
-        }
     }
 
     public void SetFacingDir(CharacterFacing dir)
