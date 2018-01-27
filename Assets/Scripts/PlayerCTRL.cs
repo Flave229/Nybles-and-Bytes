@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using Assets;
+using Assets.Scripts;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,6 +22,13 @@ public class PlayerCTRL : MonoBehaviour
     private Rigidbody _mRigidBody;
     private bool _mIsPossessed;
     private bool _mIsControlledByUser = true;
+
+    public IDetectable DetectableBehaviour;
+
+    private void Awake()
+    {
+        DetectableBehaviour = new CloneDetected();
+    }
 
     // Use this for initialization
     void Start()

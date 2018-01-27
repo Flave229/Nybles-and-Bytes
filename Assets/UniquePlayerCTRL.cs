@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,11 @@ public class UniquePlayerCTRL : MonoBehaviour
     private List<PlayerCTRL> _mListOfPlayers;
     private PlayerCTRL _mRefToMyself;
     private int _mCloneIndex;
+
+    private void Awake()
+    {
+        _mRefToMyself.DetectableBehaviour = new PlayerDetected();        
+    }
 
     // Use this for initialization
     void Start()
