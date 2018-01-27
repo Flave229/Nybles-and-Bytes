@@ -53,6 +53,9 @@ public class Security_Camera : MonoBehaviour, ICircuitComponent
     // Update is called once per frame
     void Update()
     {
+        if (Enabled == false)
+            return;
+
         securityCameraPos = transform.position;
         cols = Physics.OverlapSphere(securityCameraPos, detectDistance);
         foreach (Collider col in cols)
