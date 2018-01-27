@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System;
 
 
-public class WireCircuitComponent : MonoBehaviour, ICircuitComponents 
+public class WireCircuitComponent : MonoBehaviour, ICircuitComponent 
 {
 	public List<GameObject> PrevGameObjects;
 	public List<GameObject> NextGameObjects;
 
-	List<ICircuitComponents> PrevCircuitComponents = new List<ICircuitComponents>();
-	List<ICircuitComponents> NextCircuitComponents = new List<ICircuitComponents>();
+	List<ICircuitComponent> PrevCircuitComponents = new List<ICircuitComponent>();
+	List<ICircuitComponent> NextCircuitComponents = new List<ICircuitComponent>();
 
 	UniquePlayerCTRL UPlayer;
 	// Use this for initialization
@@ -19,11 +19,11 @@ public class WireCircuitComponent : MonoBehaviour, ICircuitComponents
 		try 
 		{
 			foreach (var item in PrevGameObjects) {
-				PrevCircuitComponents.Add(item.GetComponent<ICircuitComponents>());
+				PrevCircuitComponents.Add(item.GetComponent<ICircuitComponent>());
 			}
 
 			foreach (var item in NextGameObjects) {
-				NextCircuitComponents.Add(item.GetComponent<ICircuitComponents>());
+				NextCircuitComponents.Add(item.GetComponent<ICircuitComponent>());
 			}
 		} 
 		catch (Exception) 
@@ -38,19 +38,19 @@ public class WireCircuitComponent : MonoBehaviour, ICircuitComponents
 		
 	}
 
-	public List<ICircuitComponents> SeekNext()
+	public List<ICircuitComponent> SeekNext()
 	{
 		return NextCircuitComponents;
 	}
 
-	public List<ICircuitComponents> SeekPrev()
+	public List<ICircuitComponent> SeekPrev()
 	{
 		return PrevCircuitComponents;
 	}
 
-	public List<ICircuitComponents> Peek()
+	public List<ICircuitComponent> Peek()
 	{
-		List<ICircuitComponents> ICC = new List<ICircuitComponents> ();
+		List<ICircuitComponent> ICC = new List<ICircuitComponent> ();
 
 		for (int i = 0; i < NextCircuitComponents.Count; i++) 
 		{

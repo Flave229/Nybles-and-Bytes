@@ -10,8 +10,8 @@ public class TerminalManager : MonoBehaviour
 	UniquePlayerCTRL UniquePlayerCTRL;
 
 	public List<TerminalCircuitComponent> TerminalList = new List<TerminalCircuitComponent>();
-	List<ICircuitComponents> prevCurrentCircuitComponents = new List<ICircuitComponents>();
-	List<ICircuitComponents> nextCurrentCircuitComponents = new List<ICircuitComponents>();
+	List<ICircuitComponent> prevCurrentCircuitComponents = new List<ICircuitComponent>();
+	List<ICircuitComponent> nextCurrentCircuitComponents = new List<ICircuitComponent>();
 
     void Start ()
     {
@@ -104,8 +104,8 @@ public class TerminalManager : MonoBehaviour
 
 		for (int i = 0; i < terminalCircuitComp.NextGameObjects.Count; i++)
 		{
-			nextCurrentCircuitComponents.Add (terminalCircuitComp.NextGameObjects[i].GetComponent<ICircuitComponents>());
-			PeekNext (terminalCircuitComp.NextGameObjects[i].GetComponent<ICircuitComponents>() as TerminalCircuitComponent);
+			nextCurrentCircuitComponents.Add (terminalCircuitComp.NextGameObjects[i].GetComponent<ICircuitComponent>());
+			PeekNext (terminalCircuitComp.NextGameObjects[i].GetComponent<ICircuitComponent>() as TerminalCircuitComponent);
 		}
 	}
 
@@ -117,8 +117,8 @@ public class TerminalManager : MonoBehaviour
 		}
 		for (int i = 0; i < terminalCircuitComp.PrevGameObjects.Count; i++)
 		{
-			prevCurrentCircuitComponents.Add (terminalCircuitComp.PrevGameObjects[i].GetComponent<ICircuitComponents>());
-			PeekPrev (terminalCircuitComp.PrevGameObjects[i].GetComponent<ICircuitComponents>() as TerminalCircuitComponent);
+			prevCurrentCircuitComponents.Add (terminalCircuitComp.PrevGameObjects[i].GetComponent<ICircuitComponent>());
+			PeekPrev (terminalCircuitComp.PrevGameObjects[i].GetComponent<ICircuitComponent>() as TerminalCircuitComponent);
 		}
 	}
 
