@@ -13,15 +13,16 @@ public enum CharacterFacing
     FACE_CENTRE = 4
 }
 
+
 public class PlayerCTRL : MonoBehaviour
 {
     [SerializeField]
     private float _mMoveForce;
     [SerializeField]
     private CharacterFacing _mFacingDirection;
-    private Rigidbody _mRigidBody;
     private bool _mIsPossessed;
     private bool _mIsControlledByUser = true;
+    private Rigidbody _mRigidBody;
 
     public IDetectable DetectableBehaviour;
 
@@ -30,7 +31,6 @@ public class PlayerCTRL : MonoBehaviour
         DetectableBehaviour = new CloneDetected();
     }
 
-    // Use this for initialization
     void Start()
     {
         _mRigidBody = GetComponent<Rigidbody>();
@@ -39,18 +39,18 @@ public class PlayerCTRL : MonoBehaviour
     void FixedUpdate()
     {
         if (_mIsPossessed) return;
+                
+        if (!_mIsControlledByUser) return;
 
         // artificial gravity stronger than regular gravity
         _mRigidBody.AddForce(Vector3.down * 20.0f * _mRigidBody.mass);
-        
-        if (!_mIsControlledByUser) return;
 
         if (Input.GetKey(KeyCode.K))
         {
             Debug.Log("Key K");
             Scenes.instance.LoadScene(Scenes.Scene.GAME_OVER);
         }
-
+        
         float leftRight = Input.GetAxis("Horizontal");
         if (leftRight != 0)
         {

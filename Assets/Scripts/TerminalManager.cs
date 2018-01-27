@@ -8,9 +8,11 @@ public class TerminalManager : MonoBehaviour
 	PlayerCameraController CameraController;
     bool FollowPlayerToggle = true;
     int CurrentTerminal = 0;
-
+	UniquePlayerCTRL UniquePlayerCTRL;
+		
     void Start ()
     {
+		UniquePlayerCTRL = Object.FindObjectOfType (typeof(UniquePlayerCTRL)) as UniquePlayerCTRL;
 		TerminalArray = Object.FindObjectsOfType(typeof(Terminal)) as Terminal[];
 		CameraController = Object.FindObjectOfType (typeof(PlayerCameraController)) as PlayerCameraController;
     }
@@ -51,6 +53,11 @@ public class TerminalManager : MonoBehaviour
 					}
 
 					MoveCameraTo(TerminalArray[CurrentTerminal]);
+				}
+
+				if (Input.GetKeyDown(KeyCode.Space))
+				{
+					UniquePlayerCTRL.CreateClone(TerminalArray[CurrentTerminal].transform.position);
 				}
 			}
 		}
