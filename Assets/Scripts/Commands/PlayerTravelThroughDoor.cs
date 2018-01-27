@@ -15,6 +15,8 @@ namespace Assets.Scripts.Commands
 
         public void Execute()
         {
+            if (_enemy.GetPossessed() == false)
+                _thisLift.Travel(_enemy, _enemy.transform);
         }
     }
 }

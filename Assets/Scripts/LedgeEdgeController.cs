@@ -94,7 +94,7 @@ public class LedgeEdgeController : MonoBehaviour
     private void ReleasePlayer()
     {
         Debug.Log("Releasing");
-        _mPlayerCTRL.SetPlayerPossessed(false);
+        _mPlayerCTRL.SetPossessed(false);
         _mPlayerCTRL = null;
     }
 
@@ -129,7 +129,7 @@ public class LedgeEdgeController : MonoBehaviour
             _mPlayerCTRL = other.gameObject.GetComponent<PlayerCTRL>();
             if (_mPlayerCTRL != null)
             {
-                _mPlayerCTRL.SetPlayerPossessed(true);
+                _mPlayerCTRL.SetPossessed(true);
                 _mPlayerRigidBdy = _mPlayerCTRL.GetComponent<Rigidbody>();
                 _mPlayerRigidBdy.velocity = Vector3.zero;
                 _mPlayerCTRL.transform.position = _mClimbStartPos;

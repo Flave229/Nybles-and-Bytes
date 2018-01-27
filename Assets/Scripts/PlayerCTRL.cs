@@ -1,6 +1,6 @@
 ﻿using Assets;
 using Assets.Scripts;
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,7 +14,7 @@ public enum CharacterFacing
 }
 
 
-public class PlayerCTRL : MonoBehaviour
+public class PlayerCTRL : MonoBehaviour, ICharacter
 {
     [SerializeField]
     private float _mMoveForce;
@@ -51,6 +51,14 @@ public class PlayerCTRL : MonoBehaviour
             Debug.Log("Key K");
             Scenes.instance.LoadScene(Scenes.Scene.GAME_OVER);
         }
+
+        if (Input.GetKey(KeyCode.E))
+        {
+            List<Lift> lifts = FindObjectsOfType<Lift>().OfType<Lift>().ToList();
+
+            foreach (Lift lift in lifts)
+                lift.Travel(this, transform);
+        }
         
         float leftRight = Input.GetAxis("Horizontal");
         if (leftRight != 0)
@@ -70,7 +78,7 @@ public class PlayerCTRL : MonoBehaviour
         return _mFacingDirection;
     }
 
-    public void SetPlayerPossessed(bool possessed)
+    public void SetPossessed(bool possessed)
     {
         _mIsPossessed = possessed;
     }
@@ -78,5 +86,10 @@ public class PlayerCTRL : MonoBehaviour
     public void SetUserControlEnabled(bool state)
     {
         _mIsControlledByUser = state;
+    }
+
+    public bool GetPossessed()
+    {
+        return _mIsPossessed;
     }
 }

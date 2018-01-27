@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class Enemy : MonoBehaviour
+    public class Enemy : MonoBehaviour, ICharacter
     {
         private ITask _executingTask;
         private IMovementAI _movementAI;
@@ -12,6 +12,7 @@ namespace Assets.Scripts
         public Rigidbody RigidBody;
         public Vector3 SeekPosition;
         public float MoveForce;
+        private bool _possessed;
 
         void Awake()
         {
@@ -30,6 +31,16 @@ namespace Assets.Scripts
 
             if (_executingTask.IsComplete() == false)
                 _executingTask.Execute();
+        }
+
+        public void SetPossessed(bool possessed)
+        {
+            _possessed = possessed;
+        }
+
+        public bool GetPossessed()
+        {
+            return _possessed;
         }
     }
 }
