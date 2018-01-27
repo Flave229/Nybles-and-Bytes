@@ -13,6 +13,7 @@ namespace Assets.Scripts
         [SerializeField]
         private Vector3 _patrolEnd;
         private bool _patrolToEnd;
+        private PlayerCTRL _player;
 
         public Rigidbody RigidBody;
         public float MoveForce;
@@ -29,11 +30,21 @@ namespace Assets.Scripts
         {
             RigidBody = GetComponent<Rigidbody>();
             _executingTask = new SeekTask(_movementAI, this, _patrolEnd);
+            _player = Object.FindObjectOfType<UniquePlayerCTRL>().GetComponent<PlayerCTRL>();
         }
 
         void FixedUpdate()
         {
-            if (_possessed) return;
+            if (_possessed)
+                return;
+
+            if (_player.transform.position.y - 2 < transform.position.y &&
+                _player.transform.position.y + 2 > transform.position.y &&
+                _player.transform.position.x - 5 < transform.position.x &&
+                _player.transform.position.x + 5 > transform.position.x)
+            {
+                _executingTask = new ChaseTask(_player, this);
+            }
 
             RigidBody.AddForce(Vector3.down * 20.0f * RigidBody.mass);
 

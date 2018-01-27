@@ -68,7 +68,6 @@ namespace Assets.Scripts.AI.TaskSystem
             }
 
             float leftRight = (_movementPath[_movementPath.Count - 1].Position.x - _character.transform.position.x) > 0 ? 1 : -1;
-
             _character.RigidBody.MovePosition(_character.transform.position + (new Vector3(leftRight * Time.fixedDeltaTime * _character.MoveForce, 0.0f, 0.0f) * Time.deltaTime));
 
             if (CheckIfAtNextNode() == false)
@@ -90,8 +89,8 @@ namespace Assets.Scripts.AI.TaskSystem
         {
             Vector3 playerPosition = _character.transform.position;
             Vector2 nextNodePosition = _movementPath[_movementPath.Count - 1].Position;
-            if (playerPosition.x - 1 < nextNodePosition.x &&
-                playerPosition.x + 1 > nextNodePosition.x &&
+            if (playerPosition.x - 0.5 < nextNodePosition.x &&
+                playerPosition.x + 0.5 > nextNodePosition.x &&
                 playerPosition.y - 2 < nextNodePosition.y &&
                 playerPosition.y + 2 > nextNodePosition.y)
             {
