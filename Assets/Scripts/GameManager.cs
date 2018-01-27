@@ -4,29 +4,21 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager
     {
         public AIDirector AiDirector;
         private static GameManager _instance;
         private static List<PlayerCTRL> _mListOfPlayers;
 
-        private GameManager() { }
+        private GameManager()
+        {
+            AiDirector = new AIDirector();
+            _mListOfPlayers = new List<PlayerCTRL>();
+        }
 
         public static GameManager Instance()
         {
             return _instance ?? (_instance = new GameManager());
-        }
-
-        void Awake()
-        {
-                _instance = this;
-                //DontDestroyOnLoad(this.gameObject);
-        }
-
-        void Start()
-        {
-            AiDirector = new AIDirector();
-            _mListOfPlayers = new List<PlayerCTRL>();
         }
 
         void Update()
