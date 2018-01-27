@@ -40,11 +40,11 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
     void FixedUpdate()
     {
         if (_mIsPossessed) return;
-                
-        if (!_mIsControlledByUser) return;
 
         // artificial gravity stronger than regular gravity
         _mRigidBody.AddForce(Vector3.down * 20.0f * _mRigidBody.mass);
+
+        if (!_mIsControlledByUser) return;
 
         if (Input.GetKey(KeyCode.K))
         {
@@ -55,9 +55,13 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
         if (Input.GetKey(KeyCode.E))
         {
             List<Lift> lifts = FindObjectsOfType<Lift>().OfType<Lift>().ToList();
+            List<Switch> switches = FindObjectsOfType<Switch>().OfType<Switch>().ToList();
 
             foreach (Lift lift in lifts)
                 lift.Travel(this, transform);
+
+            foreach (Switch button in switches)
+                button.Press(transform);
         }
         
         float leftRight = Input.GetAxis("Horizontal");

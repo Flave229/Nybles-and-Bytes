@@ -67,6 +67,7 @@ public class WireCircuitComponent : MonoBehaviour, ICircuitComponent
 
 	public void Execute()
 	{
-		
+        foreach (ICircuitComponent component in NextCircuitComponents)
+            component.Execute();
 	}
 }
