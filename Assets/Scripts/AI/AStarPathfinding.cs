@@ -39,7 +39,8 @@ namespace Assets.Scripts.AI
                         ConnectingNodes = connectedNode.ConnectingNodes,
                         Position = connectedNode.Position,
                         CurrentCost = cheapestNode.CurrentCost + Vector2.Distance(connectedNode.Position, cheapestNode.Position),
-                        Heuristic = Vector2.Distance(connectedNode.Position, target.Position)
+                        Heuristic = Vector2.Distance(connectedNode.Position, target.Position),
+                        Callback = connectedNode.Callback
                     };
 
                     nodeCopy.TotalCost = nodeCopy.CurrentCost + nodeCopy.Heuristic;

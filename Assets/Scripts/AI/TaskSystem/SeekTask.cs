@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Commands;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.AI.TaskSystem
@@ -42,13 +43,13 @@ namespace Assets.Scripts.AI.TaskSystem
                     Heuristic = 0.0f,
                     TotalCost = 0.0f
                 };
-
-                // TODO: Need to add connected nodes to the source and target nodes. Can't do this until doors are done. 
+                
                 List<Node> nodes = GameManager.Instance().AiDirector.DoorNodes;
 
                 // Find all doors on same y and connect it to source
                 foreach(Node node in nodes)
                 {
+                    node.Callback = new PlayerTravelThroughDoor(node.Owner.GetComponent<Lift>(), _character);
                     if (node.Position.y - 2 < source.Position.y &&
                         node.Position.y + 2 > source.Position.y)
                     {
@@ -66,10 +67,14 @@ namespace Assets.Scripts.AI.TaskSystem
                 _started = true;
             }
 
-            //_character.RigidBody.MovePosition(_character.transform.position + (new Vector3(leftRight * _mMoveForce, 0.0f, 0.0f) * Time.deltaTime));
+            float leftRight = (_movementPath[_movementPath.Count - 1].Position.x - _character.transform.position.x) > 0 ? 1 : -1;
+            _character.RigidBody.MovePosition(_character.transform.position + (new Vector3(leftRight * Time.fixedDeltaTime * _character.MoveForce, 0.0f, 0.0f) * Time.deltaTime));
 
             if (CheckIfAtNextNode() == false)
                 return;
+
+            if (_movementPath.Count > 2 && _movementPath[_movementPath.Count - 1].Callback != null)
+                _movementPath[_movementPath.Count - 1].Callback.Execute();
 
             _movementPath.RemoveAt(_movementPath.Count - 1);
             
@@ -84,8 +89,8 @@ namespace Assets.Scripts.AI.TaskSystem
         {
             Vector3 playerPosition = _character.transform.position;
             Vector2 nextNodePosition = _movementPath[_movementPath.Count - 1].Position;
-            if (playerPosition.x - 3 < nextNodePosition.x &&
-                playerPosition.x + 3 > nextNodePosition.x &&
+            if (playerPosition.x - 0.5 < nextNodePosition.x &&
+                playerPosition.x + 0.5 > nextNodePosition.x &&
                 playerPosition.y - 2 < nextNodePosition.y &&
                 playerPosition.y + 2 > nextNodePosition.y)
             {
