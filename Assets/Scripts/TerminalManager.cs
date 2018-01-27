@@ -34,11 +34,10 @@ public class TerminalManager : MonoBehaviour
 						// current is not a clone
 						if (Input.GetKeyUp (KeyCode.F))
 						{
-							PeekAllTerminals (terminal);
-							CurrentTerminal = 0;
+                            terminal.Peek();
+                            CurrentTerminal = 0;
 							FollowPlayerToggle = !FollowPlayerToggle;
 							CameraController.FollowPlayer (FollowPlayerToggle);
-
 						}
 
 						if (Input.GetKeyDown (KeyCode.Comma) && !FollowPlayerToggle) 
@@ -77,50 +76,50 @@ public class TerminalManager : MonoBehaviour
 		}
 	}
 
-	void PeekAllTerminals(TerminalCircuitComponent terminal)
-	{
-		PeekNext (terminal);
-		PeekPrev (terminal);
+	//void PeekAllTerminals(TerminalCircuitComponent terminal)
+	//{
+	//	PeekNext (terminal);
+	//	PeekPrev (terminal);
 
-		for (int i = 0; i < nextCurrentCircuitComponents.Count; i++) 
-		{
-			TerminalList.Add (nextCurrentCircuitComponents[i] as TerminalCircuitComponent);
-		}
+	//	for (int i = 0; i < nextCurrentCircuitComponents.Count; i++) 
+	//	{
+	//		TerminalList.Add (nextCurrentCircuitComponents[i] as TerminalCircuitComponent);
+	//	}
 
-		for (int i = 0; i < prevCurrentCircuitComponents.Count; i++) 
-		{
-			TerminalList.Add (prevCurrentCircuitComponents[i] as TerminalCircuitComponent);
+	//	for (int i = 0; i < prevCurrentCircuitComponents.Count; i++) 
+	//	{
+	//		TerminalList.Add (prevCurrentCircuitComponents[i] as TerminalCircuitComponent);
 			
-		}
+	//	}
 		
-	}
+	//}
 
-	void PeekNext (TerminalCircuitComponent terminalCircuitComp)
-	{
-		if (terminalCircuitComp == null) 
-		{
-			return;
-		}
+	//void PeekNext (TerminalCircuitComponent terminalCircuitComp)
+	//{
+	//	if (terminalCircuitComp == null) 
+	//	{
+	//		return;
+	//	}
 
-		for (int i = 0; i < terminalCircuitComp.NextGameObjects.Count; i++)
-		{
-			nextCurrentCircuitComponents.Add (terminalCircuitComp.NextGameObjects[i].GetComponent<ICircuitComponent>());
-			PeekNext (terminalCircuitComp.NextGameObjects[i].GetComponent<ICircuitComponent>() as TerminalCircuitComponent);
-		}
-	}
+	//	for (int i = 0; i < terminalCircuitComp.NextGameObjects.Count; i++)
+	//	{
+	//		nextCurrentCircuitComponents.Add (terminalCircuitComp.NextGameObjects[i].GetComponent<ICircuitComponent>());
+	//		PeekNext (terminalCircuitComp.NextGameObjects[i].GetComponent<ICircuitComponent>() as TerminalCircuitComponent);
+	//	}
+	//}
 
-	void PeekPrev (TerminalCircuitComponent terminalCircuitComp)
-	{
-		if (terminalCircuitComp == null)
-		{
-			return;
-		}
-		for (int i = 0; i < terminalCircuitComp.PrevGameObjects.Count; i++)
-		{
-			prevCurrentCircuitComponents.Add (terminalCircuitComp.PrevGameObjects[i].GetComponent<ICircuitComponent>());
-			PeekPrev (terminalCircuitComp.PrevGameObjects[i].GetComponent<ICircuitComponent>() as TerminalCircuitComponent);
-		}
-	}
+	//void PeekPrev (TerminalCircuitComponent terminalCircuitComp)
+	//{
+	//	if (terminalCircuitComp == null)
+	//	{
+	//		return;
+	//	}
+	//	for (int i = 0; i < terminalCircuitComp.PrevGameObjects.Count; i++)
+	//	{
+	//		prevCurrentCircuitComponents.Add (terminalCircuitComp.PrevGameObjects[i].GetComponent<ICircuitComponent>());
+	//		PeekPrev (terminalCircuitComp.PrevGameObjects[i].GetComponent<ICircuitComponent>() as TerminalCircuitComponent);
+	//	}
+	//}
 
 	//void MoveCameraTo(TerminalCircuitComponent terminal)
 	//{
