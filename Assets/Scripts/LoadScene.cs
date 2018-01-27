@@ -22,9 +22,7 @@ public class LoadScene : MonoBehaviour {
 
     void onClick()
     {
-        print("Clicked");
         Scenes.instance.LoadScene(scene);
     }
-
 
 }

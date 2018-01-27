@@ -7,7 +7,6 @@ namespace Assets.Scripts
         [SerializeField]
         private float _mMoveForce;
         private Rigidbody _mRigidBody;
-        private bool _mIsControlledByUser = true;
 
         void Start()
         {
@@ -18,7 +17,6 @@ namespace Assets.Scripts
         {
             // artificial gravity stronger than regular gravity
             _mRigidBody.AddForce(Vector3.down * 20.0f * _mRigidBody.mass);
-            if (!_mIsControlledByUser) return;
 
             float leftRight = Input.GetAxis("Horizontal");
             if (leftRight != 0)
