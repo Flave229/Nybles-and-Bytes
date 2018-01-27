@@ -11,7 +11,7 @@ public class UniquePlayerCTRL : MonoBehaviour
     private PlayerCameraController _mCamera;
     private List<PlayerCTRL> _mListOfPlayers;
     private PlayerCTRL _mRefToMyself;
-    private int _mCloneIndex;
+	public int _mCloneIndex;
 
     private void Awake()
     {
@@ -78,5 +78,12 @@ public class UniquePlayerCTRL : MonoBehaviour
 		PlayerCTRL tempRefPlayerCTRL = tempRef.GetComponent<PlayerCTRL>();
 		_mListOfPlayers.Add(tempRefPlayerCTRL);
 		tempRefPlayerCTRL.SetUserControlEnabled(false);
+
+		_mListOfPlayers[_mCloneIndex].SetUserControlEnabled(false);
+
+		_mCloneIndex++;
+
+		_mCamera.SetTargetPlayerObject(_mListOfPlayers[_mCloneIndex]);
+		_mListOfPlayers[_mCloneIndex].SetUserControlEnabled(true);
 	}
 }
