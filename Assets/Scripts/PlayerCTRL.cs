@@ -28,7 +28,7 @@ public class PlayerCTRL : MonoBehaviour
 
     private void Awake()
     {
-        DetectableBehaviour = new CloneDetected();
+        DetectableBehaviour = new CloneDetected(gameObject);
 		_mMoveForce = 10;
     }
 
