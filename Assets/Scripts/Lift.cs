@@ -3,11 +3,12 @@ using Assets.Scripts.AI;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lift : MonoBehaviour
+public class Lift : MonoBehaviour, ICircuitComponent
 {
 	private ICharacter _travellingCharacter;
     private Transform _travellingTransform;
     public GameObject DestinationDoor;
+    private bool _locked;
 	bool bActive;
 	public float LiftAcceleration;
 	public float LiftPeakSpeed;
@@ -15,8 +16,12 @@ public class Lift : MonoBehaviour
 	private int Direction;
     public Node PathfindNode;
 
+    public GameObject PrevGameObject;
+    ICircuitComponent PrevCircuitComponent;
+
     void Awake()
     {
+        _locked = false;
         PathfindNode = new Node
         {
             Position = transform.position,
@@ -80,4 +85,31 @@ public class Lift : MonoBehaviour
 			}
 		}
 	}
+
+    public List<ICircuitComponent> SeekNext()
+    {
+        return new List<ICircuitComponent>();
+    }
+
+    public List<ICircuitComponent> SeekPrev()
+    {
+        return new List<ICircuitComponent>
+        {
+            PrevCircuitComponent
+        };
+    }
+
+    public List<ICircuitComponent> Peek()
+    {
+        return new List<ICircuitComponent>
+        {
+            this
+        };
+    }
+
+    public void Execute()
+    {
+        _locked = !_locked;
+        DestinationDoor.GetComponent<Lift>()._locked = _locked;
+    }
 }
