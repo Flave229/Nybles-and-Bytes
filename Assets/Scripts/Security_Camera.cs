@@ -2,42 +2,49 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Security_Camera : MonoBehaviour {
+public class Security_Camera : MonoBehaviour
+{
 
     public int detectDistance;
 
+    private GameObject player;
+    private PlayerCTRL playerCTRL;
     private Vector3 playerPos;
     private Vector3 securityCameraPos;
-    public GameObject[] objs; 
+    private Collider[] cols;
 
     // Use this for initialization
-    void Start() {
-        //player = GameObject.Find("Player");
-
+    void Start()
+    {
+        //player = GameObject.Find("Player_Unique");
     }
 
     // Update is called once per frame
-    void Update() {
-        
+    void Update()
+    {
         securityCameraPos = this.transform.position;
-        objs = GameObject.FindGameObjectsWithTag("Player");
+        cols = Physics.OverlapSphere(securityCameraPos, detectDistance);
 
-        foreach (var obj in objs)
+        foreach (Collider col in cols)
         {
-            if (obj != null)
+            if (col != null)
             {
-                playerPos = obj.transform.position;
-                //        Debug.Log("Me Pos:" + securityCameraPos + " - Player Pos:" + playerPos.x);
-
-                float dist = Vector3.Distance(securityCameraPos, playerPos);
-                if (dist <= detectDistance)
+                if (col.gameObject.GetComponent<UniquePlayerCTRL>() != null)
                 {
-                    Debug.Log("Seen Distance:" + dist);
+                    col.gameObject.GetComponent<UniquePlayerCTRL>().DetectedByCamera();
+                    return;
                 }
+                else
+                {
+                    // Clones
+
+                }
+
             }
         }
     }
 }
+
 
 
 
