@@ -22,7 +22,6 @@ public class Security_Camera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         securityCameraPos = this.transform.position;
         cols = Physics.OverlapSphere(securityCameraPos, detectDistance);
 
