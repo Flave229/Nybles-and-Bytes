@@ -47,12 +47,14 @@ public class Security_Camera : MonoBehaviour
                     {
                         _mCloneIndex = GameManager.Instance().GetListOfEntities().Count - 1;
                         GameObject tempRef = GameManager.Instance().GetListOfEntities()[_mCloneIndex].gameObject;
-                        GameManager.Instance().GetListOfEntities().Remove(GameManager.Instance().GetListOfEntities()[_mCloneIndex]);
+                        GameManager.Instance().GetListOfEntities().RemoveAt(_mCloneIndex);
                         Destroy(tempRef, 0.0f);
 
                         _mCloneIndex -= 1;
                         _mCamera.SetTargetPlayerObject(GameManager.Instance().GetListOfEntities()[_mCloneIndex]);
                         GameManager.Instance().GetListOfEntities()[_mCloneIndex].SetUserControlEnabled(true);
+
+                        break;
                     }
                 }
             }

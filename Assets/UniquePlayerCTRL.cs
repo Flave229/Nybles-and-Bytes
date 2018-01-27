@@ -39,6 +39,8 @@ public class UniquePlayerCTRL : MonoBehaviour
 
             GameManager.Instance().GetListOfEntities()[_mCloneIndex].SetUserControlEnabled(true);
             _mCamera.SetTargetPlayerObject(GameManager.Instance().GetListOfEntities()[_mCloneIndex]);
+
+            //Debug.Log("Idx: " + _mCloneIndex);
         }
         else if (Input.GetKeyDown(KeyCode.Period))
         {
@@ -49,6 +51,8 @@ public class UniquePlayerCTRL : MonoBehaviour
 
             GameManager.Instance().GetListOfEntities()[_mCloneIndex].SetUserControlEnabled(true);
             _mCamera.SetTargetPlayerObject(GameManager.Instance().GetListOfEntities()[_mCloneIndex]);
+
+            //Debug.Log("Idx: " + _mCloneIndex);
         }
 
         if (Input.GetKeyDown(KeyCode.Delete))
