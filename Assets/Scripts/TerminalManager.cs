@@ -23,7 +23,7 @@ public class TerminalManager : MonoBehaviour
 		{
 			Terminal terminal = TerminalArray[i];
 
-			if (terminal.IsPlayerColliding)
+			if (terminal.IsPlayerColliding) // current is not a clone
 			{
 				if (Input.GetKeyDown(KeyCode.F)) 
 				{
@@ -58,6 +58,8 @@ public class TerminalManager : MonoBehaviour
 				if (Input.GetKeyDown(KeyCode.Space))
 				{
 					UniquePlayerCTRL.CreateClone(TerminalArray[CurrentTerminal].transform.position);
+					FollowPlayerToggle = true;
+					CameraController.FollowPlayer(FollowPlayerToggle);
 				}
 			}
 		}

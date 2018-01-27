@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.AI;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -7,6 +8,7 @@ namespace Assets.Scripts
     {
         public AIDirector AiDirector;
         private static GameManager _instance;
+        private static List<PlayerCTRL> _mListOfPlayers;
 
         private GameManager() { }
 
@@ -29,11 +31,25 @@ namespace Assets.Scripts
         void Start()
         {
             AiDirector = new AIDirector();
+            _mListOfPlayers = new List<PlayerCTRL>();
         }
 
         void Update()
         {
             AiDirector.Update();
+        }
+
+        public void AddEntityToList(PlayerCTRL entity)
+        {
+            if (_mListOfPlayers == null)
+                _mListOfPlayers = new List<PlayerCTRL>();
+
+            _mListOfPlayers.Add(entity);
+        }
+
+        public List<PlayerCTRL> GetListOfEntities()
+        {
+            return _mListOfPlayers;
         }
     }
 }
