@@ -9,7 +9,7 @@ public class PlayerCameraController : MonoBehaviour
     [SerializeField]
     private float _mLoftRightOffset;
 
-	private bool _mIsFollowingPlayer = true;
+	public bool _mIsFollowingPlayer = true;
     private Vector3 _mTargetPos = Vector3.zero;
 
     // Use this for initialization
