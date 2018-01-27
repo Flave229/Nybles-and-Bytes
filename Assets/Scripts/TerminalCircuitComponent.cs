@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class TerminalCircuitComponent : MonoBehaviour, ICircuitComponents
+public class TerminalCircuitComponent : MonoBehaviour, ICircuitComponent
 {
 	public List<GameObject> PrevGameObjects;
 	public List<GameObject> NextGameObjects;
 
-	List<ICircuitComponents> PrevCircuitComponents = new List<ICircuitComponents>();
-	List<ICircuitComponents> NextCircuitComponents = new List<ICircuitComponents>();
+	List<ICircuitComponent> PrevCircuitComponents = new List<ICircuitComponent>();
+	List<ICircuitComponent> NextCircuitComponents = new List<ICircuitComponent>();
 
 	UniquePlayerCTRL UPlayer;
 	bool IsPlayerCollided = false;
@@ -18,10 +18,10 @@ public class TerminalCircuitComponent : MonoBehaviour, ICircuitComponents
 		try 
 		{
 			foreach (var item in PrevGameObjects)
-				PrevCircuitComponents.Add(item.GetComponent<ICircuitComponents>());
+				PrevCircuitComponents.Add(item.GetComponent<ICircuitComponent>());
 
 			foreach (var item in NextGameObjects) 
-				NextCircuitComponents.Add(item.GetComponent<ICircuitComponents>());
+				NextCircuitComponents.Add(item.GetComponent<ICircuitComponent>());
 
 			UPlayer = this.GetComponent<UniquePlayerCTRL>();
 		} 
@@ -37,12 +37,12 @@ public class TerminalCircuitComponent : MonoBehaviour, ICircuitComponents
 		
 	}
 
-	public List<ICircuitComponents> SeekNext()
+	public List<ICircuitComponent> SeekNext()
 	{
 		return NextCircuitComponents;
 	}
 
-	public List<ICircuitComponents> SeekPrev()
+	public List<ICircuitComponent> SeekPrev()
 	{
 		return NextCircuitComponents;
 	}
@@ -75,9 +75,9 @@ public class TerminalCircuitComponent : MonoBehaviour, ICircuitComponents
 		}
 	}
 
-	public List<ICircuitComponents> Peek()
+	public List<ICircuitComponent> Peek()
 	{
-		List<ICircuitComponents> ICC = new List<ICircuitComponents> ();
+		List<ICircuitComponent> ICC = new List<ICircuitComponent> ();
 
 		for (int i = 0; i < NextCircuitComponents.Count; i++) 
 		{

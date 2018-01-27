@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ICircuitComponents
+public interface ICircuitComponent
 {
-	List<ICircuitComponents> SeekNext();
-	List<ICircuitComponents> SeekPrev();
-	List<ICircuitComponents> Peek();
+	List<ICircuitComponent> SeekNext();
+	List<ICircuitComponent> SeekPrev();
+	List<ICircuitComponent> Peek();
 	void Execute();
 }
