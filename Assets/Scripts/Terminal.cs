@@ -19,7 +19,7 @@ public class Terminal : MonoBehaviour
 
 	void OnTriggerEnter(Collider col)
 	{
-		if (col.gameObject.tag == "Player_Unique") 
+		if (col.gameObject.name == "Player_Unique") 
 		{
 			IsPlayerColliding = true;
 		}
@@ -27,7 +27,7 @@ public class Terminal : MonoBehaviour
 
 	void OnTriggerExit(Collider col)
 	{
-		if (col.gameObject.tag == "Player_Unique") 
+		if (col.gameObject.name == "Player_Unique") 
 		{
 			IsPlayerColliding = false;
 		}
