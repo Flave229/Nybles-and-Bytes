@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.AI;
 using Assets.Scripts.AI.TaskSystem;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -8,21 +9,26 @@ namespace Assets.Scripts
     {
         private ITask _executingTask;
         private IMovementAI _movementAI;
+        private Vector3 _patrolStart;
+        [SerializeField]
+        private Vector3 _patrolEnd;
+        private bool _patrolToEnd;
 
         public Rigidbody RigidBody;
-        public Vector3 SeekPosition;
         public float MoveForce;
         private bool _possessed;
 
         void Awake()
         {
+            _patrolStart = transform.position;
+            _patrolToEnd = true;
             _movementAI = new AStarPathfinding();    
         }
 
         void Start()
         {
             RigidBody = GetComponent<Rigidbody>();
-            _executingTask = new SeekTask(_movementAI, this, SeekPosition);
+            _executingTask = new SeekTask(_movementAI, this, _patrolEnd);
         }
 
         void FixedUpdate()
@@ -33,6 +39,17 @@ namespace Assets.Scripts
 
             if (_executingTask.IsComplete() == false)
                 _executingTask.Execute();
+            else if (_patrolToEnd == false)
+            {
+                _executingTask = new SeekTask(_movementAI, this, _patrolEnd);
+                _patrolToEnd = true;
+            }
+            else
+            {
+                _executingTask = new SeekTask(_movementAI, this, _patrolStart);
+                _patrolToEnd = false;
+            }
+                
         }
 
         public void SetPossessed(bool possessed)
