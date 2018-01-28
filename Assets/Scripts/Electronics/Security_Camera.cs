@@ -22,9 +22,6 @@ public class Security_Camera : MonoBehaviour, ICircuitComponent
     [SerializeField]
     private Transform _lineOfSight;
 
-    public Transform FovLeftEdge;
-    public Transform FovRightEdge;
-
     public void Execute()
     {
         Enabled = !Enabled;
@@ -63,6 +60,9 @@ public class Security_Camera : MonoBehaviour, ICircuitComponent
         if (Enabled == false)
             return;
 
+        if (transform.rotation.z > 360)
+            transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+
         securityCameraPos = transform.position;
         cols = Physics.OverlapSphere(securityCameraPos, detectDistance);
 
@@ -71,53 +71,56 @@ public class Security_Camera : MonoBehaviour, ICircuitComponent
         {
             if (col != null)
             {
+                Vector2 targetDir = col.gameObject.transform.position - transform.position;
+                //Debug.DrawLine(transform.position, _lineOfSight.position, Color.blue);
+
+                Vector2 lineOfSight = _lineOfSight.position - transform.position;
+                lineOfSight.Normalize();
+                float angleToLineOfSight;
+
+                if (transform.eulerAngles.z >= 0 && transform.eulerAngles.z <= 180)
+                {
+                    angleToLineOfSight = Vector2.Angle(Vector2.right, lineOfSight);
+                }
+                else
+                {
+                    angleToLineOfSight = Vector2.Angle(-Vector2.right, lineOfSight);
+                }
+
+                float cos = (float)Math.Cos((Math.PI / 180.0f) * (angleToLineOfSight - FieldOfView));
+                float cos2 = (float)Math.Cos((Math.PI / 180.0f) * (angleToLineOfSight + FieldOfView));
+                float sin = (float)Math.Sin((Math.PI / 180.0f) * (angleToLineOfSight - FieldOfView));
+                float sin2 = (float)Math.Sin((Math.PI / 180.0f) * (angleToLineOfSight + FieldOfView));
+                float hypotenuse = Vector2.Distance(_lineOfSight.position, transform.position);
+                Vector2 fovEdge1;
+                Vector2 fovEdge2;
+
+                if (transform.eulerAngles.z >= 0 && transform.eulerAngles.z <= 180)
+                {
+                    fovEdge1 = new Vector2(hypotenuse * cos, hypotenuse * sin);
+                    fovEdge2 = new Vector2(hypotenuse * cos2, hypotenuse * sin2);
+                }
+                else
+                {
+                    fovEdge1 = new Vector2(hypotenuse * -cos, hypotenuse * -sin);
+                    fovEdge2 = new Vector2(hypotenuse * -cos2, hypotenuse * -sin2);
+                }
+
+                fovEdge1 = Vector3.Normalize(fovEdge1);
+                fovEdge2 = Vector3.Normalize(fovEdge2);
+
+                fovEdge1 *= detectDistance;
+                fovEdge2 *= detectDistance;
+
+                Vector2 fovLine1Pos = (Vector2)transform.position + fovEdge1;
+                Vector2 fovLine2Pos = (Vector2)transform.position + fovEdge2;
+
+                Debug.DrawLine(transform.position, fovLine1Pos, Color.red);
+                Debug.DrawLine(transform.position, fovLine2Pos, Color.red);
 
                 if (col.gameObject.GetComponent<UniquePlayerCTRL>() != null)
                 {
-                    Vector2 targetDir = col.gameObject.transform.position - transform.position;
-                    Debug.DrawLine(transform.position, _lineOfSight.position, Color.blue);
-
-                    Vector2 lineOfSight = _lineOfSight.position - transform.position;
-                    //lineOfSight.Normalize();
-                    float angleToLineOfSight;
-                    if(transform.rotation.z < 0 && transform.rotation.z > -180)
-                    {
-                        angleToLineOfSight = Vector2.Angle(Vector2.right, lineOfSight);
-                    }
-                    else
-                    {
-                        angleToLineOfSight = Vector2.Angle(Vector2.up, lineOfSight);
-                    }
                     
-                    float cos = (float)Math.Cos((Math.PI / 180.0f) * (angleToLineOfSight + FieldOfView));
-                    float cos2 = (float)Math.Cos((Math.PI / 180.0f) * (angleToLineOfSight - FieldOfView));
-                    float sin = (float)Math.Sin((Math.PI / 180.0f) * (angleToLineOfSight + FieldOfView));
-                    float sin2 = (float)Math.Sin((Math.PI / 180.0f) * (angleToLineOfSight - FieldOfView));
-                    float hypotenuse = Vector2.Distance(_lineOfSight.position, transform.position);
-                    Vector2 fovEdge1;
-                    Vector2 fovEdge2;
-                    if (transform.rotation.z < 0 && transform.rotation.z > -180)
-                    {
-                        fovEdge1 = new Vector2(hypotenuse * cos, hypotenuse * -sin);
-                        fovEdge2 = new Vector2(hypotenuse * cos2, hypotenuse * -sin2);
-                    }
-                    else
-                    {
-                        fovEdge1 = new Vector2(hypotenuse * -cos, hypotenuse * -sin);
-                        fovEdge2 = new Vector2(hypotenuse * -cos2, hypotenuse * -sin2);
-                    }
-
-                    fovEdge1 = Vector3.Normalize(fovEdge1);
-                    fovEdge2 = Vector3.Normalize(fovEdge2);
-
-                    fovEdge1 *= detectDistance;
-                    fovEdge2 *= detectDistance;
-
-                    Vector2 fovLine1Pos = (Vector2)transform.position + fovEdge1;
-                    Vector2 fovLine2Pos = (Vector2)transform.position + fovEdge2;
-                    
-                    Debug.DrawLine(transform.position, fovLine1Pos, Color.red);
-                    Debug.DrawLine(transform.position, fovLine2Pos, Color.red);
 
                     float angleToPlayer = Vector2.Angle(targetDir, lineOfSight * detectDistance);
 
@@ -132,8 +135,6 @@ public class Security_Camera : MonoBehaviour, ICircuitComponent
                 }
                 else
                 {
-                    Vector2 lineOfSight = _lineOfSight.position - transform.position;
-                    Vector2 targetDir = col.gameObject.transform.position - transform.position;
                     float angleToPlayer = Vector2.Angle(targetDir, lineOfSight * detectDistance);
                     // Clones
                     if (col.gameObject.GetComponent<PlayerCTRL>() != null)
