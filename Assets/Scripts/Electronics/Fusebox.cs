@@ -11,9 +11,20 @@ public class Fusebox : MonoBehaviour, ICircuitComponent
 	List<ICircuitComponent> PrevCircuitComponents = new List<ICircuitComponent>();
 	List<ICircuitComponent> NextCircuitComponents = new List<ICircuitComponent>();
 
-	void Start()
-	{
-		foreach (GameObject prevObject in PrevGameObjects)
+    public Sprite OnSprite;
+    public Sprite OffSprite;
+    private SpriteRenderer _spriteRenderer;
+
+
+    void Start()
+    {
+        _spriteRenderer = GetComponentInParent<SpriteRenderer>();
+        if (Enabled)
+            _spriteRenderer.sprite = OnSprite;
+        else
+            _spriteRenderer.sprite = OffSprite;
+
+        foreach (GameObject prevObject in PrevGameObjects)
 			PrevCircuitComponents.Add(prevObject.GetComponent<ICircuitComponent>());
 
 		foreach (GameObject nextObject in NextGameObjects)
@@ -38,7 +49,11 @@ public class Fusebox : MonoBehaviour, ICircuitComponent
 			characterTransform.localPosition.x > transform.localPosition.x - 2.5f && characterTransform.localPosition.x < transform.localPosition.x + 2.5f)
 		{
 			Enabled = !Enabled;
-			//Execute();
+
+            if (Enabled)
+                _spriteRenderer.sprite = OnSprite;
+            else
+                _spriteRenderer.sprite = OffSprite;
 		}
 	}
 
