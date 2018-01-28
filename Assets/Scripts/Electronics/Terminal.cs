@@ -22,7 +22,7 @@ public class Terminal : MonoBehaviour, ICircuitComponent
     private int _currentTerminalIndex;
     private ICircuitComponent _currentTerminal;
 
-	private GameObject MyClone = null;
+	private PlayerCTRL MyClonePC = null;
 
     void Start ()
 	{
@@ -68,13 +68,12 @@ public class Terminal : MonoBehaviour, ICircuitComponent
 
         _currentTerminal = _connectedTerminals[_currentTerminalIndex];
 
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
+		if (Input.GetKeyUp(KeyCode.Space))
+		{
 			_currentlySelected = false;
 			UPlayer.GetComponentInParent<PlayerCTRL>().SetPossessed(false);
-            _connectedTerminals[_currentTerminalIndex].Execute();
-            _cameraController.FollowPlayer(true);
-        }
+			_connectedTerminals[_currentTerminalIndex].Execute();
+		}
 	}
 
     public void Press()
@@ -106,10 +105,13 @@ public class Terminal : MonoBehaviour, ICircuitComponent
 	}
 
 	public void Execute()
-	{
-		if (MyClone == null) MyClone = UPlayer.CreateClone(this.transform.position);
-	}
+	{ 
+		if (MyClonePC != null) return;
 
+        MyClonePC = UPlayer.CreateClone(this.transform.position);
+        _cameraController.SetTargetPlayerObject(MyClonePC);
+        _cameraController.FollowPlayer(true);
+    }
 	public bool IsPlayerColliding()
 	{
 		return IsPlayerCollided;
