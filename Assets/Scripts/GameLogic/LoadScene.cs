@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoadScene : MonoBehaviour {
-
+public class LoadScene : MonoBehaviour
+{
+    public bool _mLoadLastSceneInstead;
     public Scenes.Scene scene;
 
     // Use this for initialization
@@ -22,7 +23,14 @@ public class LoadScene : MonoBehaviour {
 
     void onClick()
     {
-        Scenes.instance.LoadScene(scene);
+        if (_mLoadLastSceneInstead)
+        {
+            SceneManager.LoadScene(PlayerPrefs.GetString("LastLevel"));
+        }
+        else
+        {
+            Scenes.instance.LoadScene(scene);
+        }
     }
 
 }
