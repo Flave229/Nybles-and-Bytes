@@ -22,7 +22,6 @@ public class PickupUSB : MonoBehaviour {
     {
         if (PickedUp)
         {
-            GetComponent<Rigidbody>().useGravity = false;
             //if (transform.localScale.x > 0.15f)
             //	transform.localScale-=new Vector3(0.01f, 0.01f, 0);
             //transform.localPosition = new Vector3(0, 6.6666f*(1-2.2222f*(transform.localScale.x-0.15f)) );
@@ -34,8 +33,10 @@ public class PickupUSB : MonoBehaviour {
         }
         else
         {
-            transform.localScale = originalScale;
-            GetComponent<Rigidbody>().useGravity = true;
+            if (transform.localPosition.y > 1.44f)
+                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.33f);
+            else
+                transform.localPosition = new Vector3(transform.localPosition.x, 1.44f);
         }
     }
 
@@ -52,5 +53,7 @@ public class PickupUSB : MonoBehaviour {
     public void DropItem()
     {
         PickedUp = false;
+
+        gameObject.transform.parent = gameObject.transform.parent.parent;
     }
 }
