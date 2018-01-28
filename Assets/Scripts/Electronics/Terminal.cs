@@ -7,8 +7,8 @@ using System.Linq;
 public class Terminal : MonoBehaviour, ICircuitComponent
 {
     private bool _currentlySelected;
-
-	public List<GameObject> PrevGameObjects;
+    private bool _surprise;
+    public List<GameObject> PrevGameObjects;
 	public List<GameObject> NextGameObjects;
 
 	List<ICircuitComponent> PrevCircuitComponents = new List<ICircuitComponent>();
@@ -50,11 +50,16 @@ public class Terminal : MonoBehaviour, ICircuitComponent
         if (_currentlySelected == false)
             return;
 
-        if (Input.GetKeyUp(KeyCode.Escape))
+        if (Input.GetKeyUp(KeyCode.E))
         {
-            _cameraController.FollowPlayer(true);
-            _currentlySelected = false;
-			UPlayer.GetComponentInParent<PlayerCTRL>().SetPossessed(false);
+            if (_surprise == false)
+            {
+                _cameraController.FollowPlayer(true);
+                _currentlySelected = false;
+                UPlayer.GetComponentInParent<PlayerCTRL>().SetPossessed(false);
+            }
+            else
+                _surprise = false;
 		}
         
         if (Input.GetKeyDown(KeyCode.Z))
@@ -83,14 +88,10 @@ public class Terminal : MonoBehaviour, ICircuitComponent
             _cameraController.FollowPlayer(false);
 			UPlayer.GetComponentInParent<PlayerCTRL>().SetPossessed(true);
             _connectedTerminals = Peek();
-			// this terminal should always be the last one
 			_connectedTerminals.Remove(this);
-			// this didn't work
-            //_connectedTerminals.Where(x => (x as Terminal).gameObject != gameObject).ToList();
-            foreach(Terminal terminal in _connectedTerminals)
-                Debug.Log(terminal);
             _currentTerminalIndex = 0;
             _currentlySelected = true;
+            _surprise = true;
         }
     }
 
