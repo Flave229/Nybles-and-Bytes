@@ -56,8 +56,7 @@ public class WireCircuitComponent : MonoBehaviour, ICircuitComponent
 		{
 			ICC.AddRange(NextCircuitComponents [i].Peek());
 		}
-
-        Debug.Log("I am a " + this.GetType().ToString() + " called " + this.transform.name + " with " + ICC.Count.ToString() + " connected components.");
+        
         return ICC;
 	}
 

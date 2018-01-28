@@ -45,12 +45,6 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
 		
         if (!_mIsControlledByUser) return;
 
-        /*if (Input.GetKey(KeyCode.K))
-        {
-            Debug.Log("Key K");
-            Scenes.instance.LoadScene(Scenes.Scene.GAME_OVER);
-        }*/
-
         if (Input.GetKeyDown(KeyCode.E))
         {
             List<Lift> lifts = FindObjectsOfType<Lift>().OfType<Lift>().ToList();
