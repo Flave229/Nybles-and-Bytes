@@ -19,7 +19,11 @@ public class Lift : MonoBehaviour, ICircuitComponent
     public GameObject PrevGameObject;
     ICircuitComponent PrevCircuitComponent;
 
-    void Awake()
+	public Sprite OnSprite;
+	public Sprite OffSprite;
+	private SpriteRenderer _mySR;
+
+	void Awake()
     {
         PathfindNode = new Node
         {
@@ -44,6 +48,8 @@ public class Lift : MonoBehaviour, ICircuitComponent
         {
             DestinationDoor.GetComponent<Lift>().PathfindNode
         };
+
+		_mySR = GetComponentInParent<SpriteRenderer>();
 	}
 	
     public void Travel(ICharacter character, Transform characterTransform)
@@ -51,7 +57,7 @@ public class Lift : MonoBehaviour, ICircuitComponent
         if (Locked)
             return;
 
-        if (!bActive && ((int)characterTransform.position.y == transform.position.y - 0.75f) && characterTransform.localPosition.x > transform.localPosition.x - 1.0f && characterTransform.localPosition.x < transform.localPosition.x + 1.0f)
+        if (!bActive && ((int)characterTransform.position.y == (int)transform.position.y) && characterTransform.localPosition.x > transform.localPosition.x - 1.0f && characterTransform.localPosition.x < transform.localPosition.x + 1.0f)
         {
             bActive = true;
             _travellingCharacter = character;
@@ -67,7 +73,7 @@ public class Lift : MonoBehaviour, ICircuitComponent
 	{
 		if (bActive)
 		{
-			if ((Direction == 1 && _travellingTransform.position.y + 0.75f - 0.382309f < DestinationDoor.transform.position.y) || (Direction == -1 && _travellingTransform.position.y + 0.75f - 0.382309f > DestinationDoor.transform.position.y))
+			if ((Direction == 1 && _travellingTransform.position.y + 0.67f - 0.382309f < DestinationDoor.transform.position.y) || (Direction == -1 && _travellingTransform.position.y + 0.67f - 0.382309f > DestinationDoor.transform.position.y))
 			{
 				if (Mathf.Abs(LiftCurrentSpeed) < LiftPeakSpeed)
 				{
@@ -85,6 +91,12 @@ public class Lift : MonoBehaviour, ICircuitComponent
                 _travellingCharacter = null;
                 _travellingTransform = null;
 			}
+
+			_mySR.sprite = OnSprite;
+		}
+		else
+		{
+			_mySR.sprite = Locked ? OffSprite : OnSprite;
 		}
 	}
 

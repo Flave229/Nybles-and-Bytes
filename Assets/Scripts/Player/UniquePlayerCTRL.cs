@@ -33,6 +33,13 @@ public class UniquePlayerCTRL : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // If a clone is destroyed by pressing K, the index stored in here will be out of date.
+        // Realign it here.
+        while (GameManager.Instance().GetListOfEntities().Count - 1 < _mCloneControlIndex)
+        {
+            _mCloneControlIndex--;
+        }
+
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             GameManager.Instance().GetListOfEntities()[_mCloneControlIndex].SetUserControlEnabled(false);

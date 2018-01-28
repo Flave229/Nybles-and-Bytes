@@ -3,6 +3,8 @@ using Assets.Scripts;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.GameLogic;
+using Assets.Scripts.Player;
 
 public enum CharacterFacing
 {
@@ -24,12 +26,14 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
 	private bool _mIsControlledByUser = true;
     private Rigidbody _mRigidBody;
     public IDetectable DetectableBehaviour;
+    public IEntityKilled EntityKilledBehaviour;
     SpriteRenderer SpriteRender;
     Animator Animator;
 
     private void Awake()
     {
         DetectableBehaviour = new CloneDetected(gameObject);
+        EntityKilledBehaviour = new CloneKilled();
 		_mMoveForce = 10;
     }
 
@@ -43,6 +47,26 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
     void FixedUpdate()
     {
 		if (_mIsPossessed) return;
+
+        if(gameObject.GetComponent<UniquePlayerCTRL>() == null)
+        {
+            // Allow clones to kill themselves
+            if(Input.GetKeyDown(KeyCode.K))
+            {
+                EntityKilledBehaviour.Killed();
+                GameObject tempRef = gameObject;
+                int indexOfThisEntity = GameManager.Instance().GetListOfEntities().IndexOf(tempRef.GetComponent<PlayerCTRL>());
+                GameManager.Instance().GetListOfEntities().Remove(tempRef.GetComponent<PlayerCTRL>());
+                Destroy(tempRef, 0.0f);
+
+                PlayerCameraController camera = FindObjectOfType<PlayerCameraController>();
+
+                PlayerCTRL lastControlled = GameManager.Instance().GetListOfEntities()[indexOfThisEntity - 1];
+                lastControlled.SetUserControlEnabled(true);
+                camera.SetTargetPlayerObject(lastControlled);
+                return;
+            }
+        }
 
 		// artificial gravity stronger than regular gravity
 		_mRigidBody.AddForce(Vector3.down * 20.0f * _mRigidBody.mass);
