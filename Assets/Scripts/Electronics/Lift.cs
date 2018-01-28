@@ -19,7 +19,11 @@ public class Lift : MonoBehaviour, ICircuitComponent
     public GameObject PrevGameObject;
     ICircuitComponent PrevCircuitComponent;
 
-    void Awake()
+	public Sprite OnSprite;
+	public Sprite OffSprite;
+	private SpriteRenderer _mySR;
+
+	void Awake()
     {
         PathfindNode = new Node
         {
@@ -44,6 +48,8 @@ public class Lift : MonoBehaviour, ICircuitComponent
         {
             DestinationDoor.GetComponent<Lift>().PathfindNode
         };
+
+		_mySR = GetComponentInParent<SpriteRenderer>();
 	}
 	
     public void Travel(ICharacter character, Transform characterTransform)
@@ -85,6 +91,12 @@ public class Lift : MonoBehaviour, ICircuitComponent
                 _travellingCharacter = null;
                 _travellingTransform = null;
 			}
+
+			_mySR.sprite = OnSprite;
+		}
+		else
+		{
+			_mySR.sprite = Locked ? OffSprite : OnSprite;
 		}
 	}
 
