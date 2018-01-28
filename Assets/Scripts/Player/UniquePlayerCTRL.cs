@@ -59,13 +59,23 @@ public class UniquePlayerCTRL : MonoBehaviour
         }
     }
 
-    public void CreateClone(Vector3 spawnPoint)
+    public PlayerCTRL CreateClone(Vector3 spawnPoint)
     {
         GameObject tempRef = Instantiate(_mClonePlayersRef, spawnPoint, transform.rotation);
         PlayerCTRL tempRefPlayerCTRL = tempRef.GetComponent<PlayerCTRL>();
         GameManager.Instance().GetListOfEntities().Add(tempRefPlayerCTRL);
         tempRefPlayerCTRL.SetUserControlEnabled(false);
+        return tempRefPlayerCTRL;
     }
+
+	// does not disable the previously possessed clone
+	public void PossessClone(PlayerCTRL clone)
+	{
+		_mCloneControlIndex = GameManager.Instance().GetListOfEntities().IndexOf(clone);
+
+		GameManager.Instance().GetListOfEntities()[_mCloneControlIndex].SetUserControlEnabled(true);
+		_mCamera.SetTargetPlayerObject(GameManager.Instance().GetListOfEntities()[_mCloneControlIndex]);
+	}
 
     public void DetectedByCamera()
     {

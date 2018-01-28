@@ -20,10 +20,12 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
     [SerializeField]
     private CharacterFacing _mFacingDirection;
     private bool _mIsPossessed;
-    private bool _mIsControlledByUser = true;
+	public bool _mIsAtTerminal = false;
+	private bool _mIsControlledByUser = true;
     private Rigidbody _mRigidBody;
-
     public IDetectable DetectableBehaviour;
+    SpriteRenderer SpriteRender;
+    Animator Animator;
 
     private void Awake()
     {
@@ -34,22 +36,20 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
     void Start()
     {
         _mRigidBody = GetComponent<Rigidbody>();
+        SpriteRender = GetComponent<SpriteRenderer>();
+        Animator = GetComponent<Animator>();
     }
 
     void FixedUpdate()
     {
+		if (_mIsPossessed) return;
+
 		// artificial gravity stronger than regular gravity
 		_mRigidBody.AddForce(Vector3.down * 20.0f * _mRigidBody.mass);
 
-		if (_mIsPossessed) return;
+		if (_mIsAtTerminal) return;
 		
         if (!_mIsControlledByUser) return;
-
-        /*if (Input.GetKey(KeyCode.K))
-        {
-            Debug.Log("Key K");
-            Scenes.instance.LoadScene(Scenes.Scene.GAME_OVER);
-        }*/
 
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -76,6 +76,21 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
         {
             _mFacingDirection = leftRight > 0 ? CharacterFacing.FACE_RIGHT : CharacterFacing.FACE_LEFT;
             _mRigidBody.MovePosition(this.transform.position + (new Vector3(leftRight * _mMoveForce, 0.0f, 0.0f) * Time.deltaTime));
+            
+            AnimatorChangeState(1);
+            if (_mFacingDirection == CharacterFacing.FACE_LEFT)
+            {
+                SpriteRenderer spriteRender = GetComponent<SpriteRenderer>();
+                spriteRender.flipX = true;
+            }
+            else
+            {
+                SpriteRender.flipX = false;
+            }
+        }
+        else
+        {
+            AnimatorChangeState(0); //Idle 
         }
     }
 
@@ -99,7 +114,10 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
         _mIsControlledByUser = state;
     }
 
-    public bool GetPossessed()
+	public bool IsControlledByUser() { return _mIsControlledByUser; }
+
+
+	public bool GetPossessed()
     {
         return _mIsPossessed;
     }
@@ -119,5 +137,10 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
         }
 
         return result;
+    }
+
+    private void AnimatorChangeState(int state)
+    {
+        Animator.SetInteger("State", state);
     }
 }
