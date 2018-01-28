@@ -13,7 +13,7 @@ namespace Assets.Scripts
         [SerializeField]
         private Vector3 _patrolEnd;
         private bool _patrolToEnd;
-        private PlayerCTRL _player;
+        private PlayerCameraController _cameraController;
 
         public Rigidbody RigidBody;
         public float MoveForce;
@@ -32,7 +32,6 @@ namespace Assets.Scripts
         {
             RigidBody = GetComponent<Rigidbody>();
             _executingTask = new SeekTask(_movementAI, this, _patrolEnd);
-            _player = Object.FindObjectOfType<UniquePlayerCTRL>().GetComponent<PlayerCTRL>();
         }
 
         void FixedUpdate()
@@ -40,18 +39,7 @@ namespace Assets.Scripts
             if (_possessed)
                 return;
 
-            if (_chasingPlayer == false && _player.transform.position.y - 2 < transform.position.y &&
-                _player.transform.position.y + 2 > transform.position.y &&
-                _player.transform.position.x - 5 < transform.position.x &&
-                _player.transform.position.x + 5 > transform.position.x)
-            {
-                _executingTask = new ChaseTask(_player, this);
-            }
-            else if (_chasingPlayer)
-            {
-                _executingTask = new SeekTask(_movementAI, this, _patrolEnd);
-                _patrolToEnd = true;
-            }
+            CheckProximityToPlayers();
 
             RigidBody.AddForce(Vector3.down * 20.0f * RigidBody.mass);
 
@@ -67,7 +55,26 @@ namespace Assets.Scripts
                 _executingTask = new SeekTask(_movementAI, this, _patrolStart);
                 _patrolToEnd = false;
             }
-                
+        }
+
+        private void CheckProximityToPlayers()
+        {
+            foreach (PlayerCTRL player in GameManager.Instance().GetListOfEntities())
+            {
+                if (_chasingPlayer == false && player.transform.position.y - 2 < transform.position.y &&
+                    player.transform.position.y + 2 > transform.position.y &&
+                    player.transform.position.x - 5 < transform.position.x &&
+                    player.transform.position.x + 5 > transform.position.x)
+                {
+                    _executingTask = new ChaseTask(player, this);
+                    break;
+                }
+                else if (_chasingPlayer)
+                {
+                    _executingTask = new SeekTask(_movementAI, this, _patrolEnd);
+                    _patrolToEnd = true;
+                }
+            }
         }
 
         public void SetPossessed(bool possessed)
