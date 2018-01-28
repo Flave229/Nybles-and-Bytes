@@ -21,4 +21,11 @@ public class BloodDeath : MonoBehaviour {
             Instantiate(blood, pos, Quaternion.identity);
         }
 	}
+
+    public void Bleed()
+    {
+        Vector3 pos = transform.position;
+        pos.z = -2f;
+        Instantiate(blood, pos, Quaternion.identity);
+    }
 }

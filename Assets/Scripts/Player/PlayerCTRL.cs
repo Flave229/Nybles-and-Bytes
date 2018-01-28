@@ -50,6 +50,7 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
             // Allow clones to kill themselves
             if(Input.GetKeyDown(KeyCode.K))
             {
+                gameObject.GetComponent<BloodDeath>().Bleed();
                 GameObject.Find("DataPacket").GetComponent<PickupUSB>().DropItem();
                 GameObject tempRef = gameObject;
                 int indexOfThisEntity = GameManager.Instance().GetListOfEntities().IndexOf(tempRef.GetComponent<PlayerCTRL>());

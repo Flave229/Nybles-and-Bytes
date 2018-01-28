@@ -17,6 +17,7 @@ namespace Assets
 
         public void Detected()
         {
+            gameObject.GetComponent<BloodDeath>().Bleed();
             GameObject.Find("DataPacket").GetComponent<PickupUSB>().DropItem();
             GameObject tempRef = gameObject;
             GameManager.Instance().GetListOfEntities().Remove(tempRef.GetComponent<PlayerCTRL>());
