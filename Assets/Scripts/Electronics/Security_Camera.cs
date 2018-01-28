@@ -22,6 +22,11 @@ public class Security_Camera : MonoBehaviour, ICircuitComponent
     [SerializeField]
     private Transform _lineOfSight;
 
+    private GameObject _line1Obj;
+    private LineRenderer _lineRenderer1;
+    private GameObject _line2Obj;
+    private LineRenderer _lineRenderer2;
+
     public void Execute()
     {
         Enabled = !Enabled;
@@ -52,13 +57,29 @@ public class Security_Camera : MonoBehaviour, ICircuitComponent
     void Start()
     {
         //player = GameObject.Find("Player_Unique");
+        _line1Obj = new GameObject("Line 1");
+        _lineRenderer1 = _line1Obj.AddComponent<LineRenderer>();
+        _line2Obj = new GameObject("Line 2");
+        _lineRenderer2 = _line2Obj.AddComponent<LineRenderer>();
+
+        _lineRenderer1.startColor = Color.red;
+        _lineRenderer1.startWidth = 0.1f;
+        _lineRenderer1.endWidth = 0.1f;
+
+        _lineRenderer2.startColor = Color.red;
+        _lineRenderer2.startWidth = 0.1f;
+        _lineRenderer2.endWidth = 0.1f;
     }
 
     // Update is called once per frame
     void Update()
     {
         if (Enabled == false)
+        {
+            _lineRenderer1.enabled = false;
+            _lineRenderer2.enabled = false;
             return;
+        }
 
         if (transform.rotation.z > 360)
             transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
@@ -115,8 +136,10 @@ public class Security_Camera : MonoBehaviour, ICircuitComponent
                 Vector2 fovLine1Pos = (Vector2)transform.position + fovEdge1;
                 Vector2 fovLine2Pos = (Vector2)transform.position + fovEdge2;
 
-                Debug.DrawLine(transform.position, fovLine1Pos, Color.red);
-                Debug.DrawLine(transform.position, fovLine2Pos, Color.red);
+                DrawFOVLines(transform.position, fovLine1Pos, fovLine2Pos);
+
+               // Debug.DrawLine(transform.position, fovLine1Pos, Color.red);
+               // Debug.DrawLine(transform.position, fovLine2Pos, Color.red);
 
                 if (col.gameObject.GetComponent<UniquePlayerCTRL>() != null)
                 {
@@ -127,7 +150,7 @@ public class Security_Camera : MonoBehaviour, ICircuitComponent
                     if (angleToPlayer < FieldOfView)
                     {
                         
-                        Debug.DrawLine(transform.position, col.gameObject.transform.position, Color.green);
+                        //Debug.DrawLine(transform.position, col.gameObject.transform.position, Color.green);
                         col.gameObject.GetComponent<UniquePlayerCTRL>().DetectedByCamera();
                     } 
                     
@@ -153,5 +176,23 @@ public class Security_Camera : MonoBehaviour, ICircuitComponent
                 }                                
             }
         }
+    }
+
+    void DrawFOVLines(Vector2 sourcePos, Vector2 fovLine1, Vector2 fovLine2)
+    {
+        _lineRenderer1.enabled = true;
+        _lineRenderer2.enabled = true;
+        List<Vector3> paths = new List<Vector3>();
+
+        paths.Add(fovLine1);
+        paths.Add(sourcePos);
+        _lineRenderer1.positionCount = paths.Count;
+        _lineRenderer1.SetPositions(paths.ToArray());
+
+        paths.Clear();
+        paths.Add(fovLine2);
+        paths.Add(sourcePos);
+        _lineRenderer2.positionCount = paths.Count;
+        _lineRenderer2.SetPositions(paths.ToArray());
     }
 }
