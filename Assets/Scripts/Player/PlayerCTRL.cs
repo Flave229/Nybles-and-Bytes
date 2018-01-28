@@ -63,6 +63,14 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
             foreach (Switch button in switches)
                 button.Press(transform);
         }
+
+        if (Input.GetKey(KeyCode.F))
+        {
+            List<Terminal> terminals = FindObjectsOfType<Terminal>().OfType<Terminal>().ToList();
+
+            foreach (Terminal terminal in terminals)
+                terminal.Press();
+        }
         
         float leftRight = Input.GetAxis("Horizontal");
         if (leftRight != 0)

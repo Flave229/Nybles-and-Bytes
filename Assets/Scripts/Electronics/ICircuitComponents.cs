@@ -7,5 +7,5 @@ public interface ICircuitComponent
 	List<ICircuitComponent> SeekNext();
 	List<ICircuitComponent> SeekPrev();
 	List<ICircuitComponent> Peek();
-	void Execute();
+    void Execute();
 }
