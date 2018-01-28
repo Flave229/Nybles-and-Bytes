@@ -17,9 +17,11 @@ namespace Assets
 
         public void Detected()
         {
+            GameObject.Find("DataPacket").GetComponent<PickupUSB>().DropItem();
             GameObject tempRef = gameObject;
             GameManager.Instance().GetListOfEntities().Remove(tempRef.GetComponent<PlayerCTRL>());
-            MonoBehaviour.Destroy(tempRef, 0.0f);
+            int indexOfThisEntity = GameManager.Instance().GetListOfEntities().IndexOf(tempRef.GetComponent<PlayerCTRL>());
+            UnityEngine.Object.Destroy(tempRef, 0.0f);
         }
 
         public void Escaped()

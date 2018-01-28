@@ -57,8 +57,10 @@ public class PickupUSB : MonoBehaviour {
 
     public void DropItem()
     {
-        PickedUp = false;
-
-        gameObject.transform.parent = gameObject.transform.parent.parent;
+        if(PickedUp)
+        {
+            PickedUp = false;
+            gameObject.transform.parent = gameObject.transform.parent.parent;
+        }
     }
 }
