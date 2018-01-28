@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts;
+using Assets.Scripts.GameLogic;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,5 +30,7 @@ public class Scenes : MonoBehaviour
     public void LoadScene(Scene scene)//, LoadSceneMode mode = LoadSceneMode.Single)
     {
         SceneManager.LoadScene(GetSceneName(scene));//, mode);
+        GameManager.Instance().GetSoundManager().StartStealthMusic();
+        //gameObject.GetComponent<SoundManager>().StartStealthMusic();
     }
 }

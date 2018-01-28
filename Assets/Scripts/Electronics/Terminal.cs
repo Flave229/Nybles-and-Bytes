@@ -24,6 +24,8 @@ public class Terminal : MonoBehaviour, ICircuitComponent
 
 	private PlayerCTRL MyClonePC = null;
 
+	private SpriteRenderer _mySR;
+
     void Start ()
 	{
 		try 
@@ -42,6 +44,8 @@ public class Terminal : MonoBehaviour, ICircuitComponent
 
         UPlayer = UnityEngine.Object.FindObjectOfType(typeof(UniquePlayerCTRL)) as UniquePlayerCTRL;
         _cameraController = UnityEngine.Object.FindObjectOfType(typeof(PlayerCameraController)) as PlayerCameraController;
+		_mySR = GetComponentInParent<SpriteRenderer>();
+		SetHighlight(false);
     }
 	
 	// Update is called once per frame
@@ -55,8 +59,7 @@ public class Terminal : MonoBehaviour, ICircuitComponent
             if (_surprise == false)
             {
                 _cameraController.FollowPlayer(true);
-                _currentlySelected = false;
-                UPlayer.GetComponentInParent<PlayerCTRL>().SetPossessed(false);
+				Deselect();
             }
             else
                 _surprise = false;
@@ -64,21 +67,36 @@ public class Terminal : MonoBehaviour, ICircuitComponent
         
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            _currentTerminalIndex = _currentTerminalIndex - 1 <= 0 ? 0 : (_currentTerminalIndex - 1);
+			(_currentTerminal as Terminal).SetHighlight(false);
+            _currentTerminalIndex = _currentTerminalIndex - 1 < 0 ? _connectedTerminals.Count - 1 : (_currentTerminalIndex - 1);
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
-            _currentTerminalIndex = _currentTerminalIndex + 1 >= _connectedTerminals.Count ? _connectedTerminals.Count - 1 : _currentTerminalIndex + 1;
+			(_currentTerminal as Terminal).SetHighlight(false);
+			_currentTerminalIndex = _currentTerminalIndex + 1 >= _connectedTerminals.Count ? 0 : _currentTerminalIndex + 1;
         }
 
         _currentTerminal = _connectedTerminals[_currentTerminalIndex];
+		(_currentTerminal as Terminal).SetHighlight(true);
 
 		if (Input.GetKeyUp(KeyCode.Space))
 		{
-			_currentlySelected = false;
-			UPlayer.GetComponentInParent<PlayerCTRL>().SetPossessed(false);
+			Deselect();
 			_connectedTerminals[_currentTerminalIndex].Execute();
 		}
+	}
+
+	void Deselect()
+	{
+		_currentlySelected = false;
+		UPlayer.GetComponentInParent<PlayerCTRL>()._mIsAtTerminal = false;
+		SetHighlight(false);
+		(_currentTerminal as Terminal).SetHighlight(false);
+	}
+
+	public void SetHighlight(bool bGreen)
+	{
+		_mySR.color = bGreen ? Color.green : Color.white;
 	}
 
     public void Press()
@@ -86,7 +104,8 @@ public class Terminal : MonoBehaviour, ICircuitComponent
         if (IsPlayerColliding())
         {
             _cameraController.FollowPlayer(false);
-			UPlayer.GetComponentInParent<PlayerCTRL>().SetPossessed(true);
+			UPlayer.GetComponentInParent<PlayerCTRL>()._mIsAtTerminal = true;
+			SetHighlight(true);
             _connectedTerminals = Peek();
 			_connectedTerminals.Remove(this);
             _currentTerminalIndex = 0;
@@ -116,7 +135,7 @@ public class Terminal : MonoBehaviour, ICircuitComponent
     }
 	public bool IsPlayerColliding()
 	{
-		return IsPlayerCollided;
+		return IsPlayerCollided && UPlayer.GetComponentInParent<PlayerCTRL>().IsControlledByUser();
 	}
 
 	void OnTriggerEnter(Collider col)

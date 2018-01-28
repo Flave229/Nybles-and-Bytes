@@ -10,13 +10,11 @@ namespace Assets.Scripts
         public AIDirector AiDirector;
         private static GameManager _instance;
         private static List<PlayerCTRL> _mListOfPlayers;
-        private static SoundManager _soundManagerInstance;
 
         private GameManager()
         {
             AiDirector = new AIDirector();
             _mListOfPlayers = new List<PlayerCTRL>();
-            _soundManagerInstance = SoundManager.Instance();
         }
 
         public static GameManager Instance()
@@ -27,6 +25,11 @@ namespace Assets.Scripts
         void Update()
         {
             AiDirector.Update();
+        }
+
+        public SoundManager GetSoundManager()
+        {
+            return GameObject.Find("Music Box").GetComponent<SoundManager>();
         }
 
         public void AddEntityToList(PlayerCTRL entity)
@@ -41,5 +44,10 @@ namespace Assets.Scripts
         {
             return _mListOfPlayers;
         }
+
+		public void ResetListOfEntities()
+		{
+			_mListOfPlayers.Clear();
+		}
     }
 }

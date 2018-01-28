@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Assets.Scripts;
 
 public class LevelExit : MonoBehaviour
 {
@@ -22,7 +23,8 @@ public class LevelExit : MonoBehaviour
     {
         if (other.name == "DataPacket")
         {
-            SceneManager.LoadScene(_mNextScene);
+			GameManager.Instance().ResetListOfEntities();
+			SceneManager.LoadScene(_mNextScene);
         }
     }
 }

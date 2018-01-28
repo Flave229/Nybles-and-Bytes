@@ -20,7 +20,8 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
     [SerializeField]
     private CharacterFacing _mFacingDirection;
     private bool _mIsPossessed;
-    private bool _mIsControlledByUser = true;
+	public bool _mIsAtTerminal = false;
+	private bool _mIsControlledByUser = true;
     private Rigidbody _mRigidBody;
     public IDetectable DetectableBehaviour;
     SpriteRenderer SpriteRender;
@@ -41,10 +42,12 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
 
     void FixedUpdate()
     {
+		if (_mIsPossessed) return;
+
 		// artificial gravity stronger than regular gravity
 		_mRigidBody.AddForce(Vector3.down * 20.0f * _mRigidBody.mass);
 
-		if (_mIsPossessed) return;
+		if (_mIsAtTerminal) return;
 		
         if (!_mIsControlledByUser) return;
 
@@ -111,7 +114,10 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
         _mIsControlledByUser = state;
     }
 
-    public bool GetPossessed()
+	public bool IsControlledByUser() { return _mIsControlledByUser; }
+
+
+	public bool GetPossessed()
     {
         return _mIsPossessed;
     }
