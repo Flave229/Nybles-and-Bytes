@@ -44,5 +44,10 @@ namespace Assets.Scripts
         {
             return _mListOfPlayers;
         }
+
+		public void ResetListOfEntities()
+		{
+			_mListOfPlayers.Clear();
+		}
     }
 }
