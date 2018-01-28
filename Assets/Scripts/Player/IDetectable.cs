@@ -9,5 +9,6 @@ namespace Assets.Scripts
     public interface IDetectable
     {
         void Detected();
+        void Escaped();
     }
 }

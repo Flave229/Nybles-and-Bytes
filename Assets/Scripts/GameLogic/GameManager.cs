@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.AI;
+using Assets.Scripts.GameLogic;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,11 +10,13 @@ namespace Assets.Scripts
         public AIDirector AiDirector;
         private static GameManager _instance;
         private static List<PlayerCTRL> _mListOfPlayers;
+        private static SoundManager _soundManagerInstance;
 
         private GameManager()
         {
             AiDirector = new AIDirector();
             _mListOfPlayers = new List<PlayerCTRL>();
+            _soundManagerInstance = SoundManager.Instance();
         }
 
         public static GameManager Instance()
