@@ -63,6 +63,13 @@ namespace Assets.Scripts.AI.TaskSystem
                     }
                 }
 
+                if (source.Position.y - 2.0f < target.Position.y &&
+                    source.Position.y + 2.0f > target.Position.y)
+                {
+                    source.ConnectingNodes.Add(target);
+                    target.ConnectingNodes.Add(source);
+                }
+
                 _movementPath = _movementAI.CreatePath(source, target);
                 _started = true;
             }
