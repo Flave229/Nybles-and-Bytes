@@ -14,6 +14,9 @@ namespace Assets.Scripts
         private Vector3 _patrolEnd;
         private bool _patrolToEnd;
         private PlayerCameraController _cameraController;
+        SpriteRenderer SpriteRender;
+        Animator Animator;
+        private Vector2 _previousLocation;
 
         public Rigidbody RigidBody;
         public float MoveForce;
@@ -31,6 +34,8 @@ namespace Assets.Scripts
         void Start()
         {
             RigidBody = GetComponent<Rigidbody>();
+            SpriteRender = GetComponent<SpriteRenderer>();
+            Animator = GetComponent<Animator>();
             _executingTask = new SeekTask(_movementAI, this, _patrolEnd);
         }
 
@@ -55,6 +60,19 @@ namespace Assets.Scripts
                 _executingTask = new SeekTask(_movementAI, this, _patrolStart);
                 _patrolToEnd = false;
             }
+
+            float leftRight = _previousLocation.x - transform.position.x;  
+            if (leftRight < 0)
+            {
+                SpriteRenderer spriteRender = GetComponent<SpriteRenderer>();
+                spriteRender.flipX = true;
+            }
+            else
+            {
+                SpriteRender.flipX = false;
+            }
+
+            _previousLocation = transform.position;
         }
 
         private void CheckProximityToPlayers()
@@ -85,6 +103,11 @@ namespace Assets.Scripts
         public bool GetPossessed()
         {
             return _possessed;
+        }
+
+        private void AnimatorChangeState(int state)
+        {
+            Animator.SetInteger("State", state);
         }
     }
 }
