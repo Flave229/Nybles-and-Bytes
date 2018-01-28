@@ -68,6 +68,7 @@ public class Lift : MonoBehaviour, ICircuitComponent
             _travellingTransform = characterTransform;
             character.SetPossessed(true);
             characterTransform.position = new Vector3(characterTransform.position.x, characterTransform.position.y, 20);
+            characterTransform.GetComponent<SpriteRenderer>().sortingOrder = -10;
             LiftCurrentSpeed = 0.0f;
             GameManager.Instance().GetSoundManager().PlaySoundEffect("Sounds/Elevator/ElevatorRunning", true);
         }
@@ -95,10 +96,11 @@ public class Lift : MonoBehaviour, ICircuitComponent
                 GameManager.Instance().GetSoundManager().PlaySoundEffect("Sounds/Elevator/ElevatorDoor", false);
                 bActive = false;
                 _travellingTransform.Translate(new Vector3(0, 0, -20));
+                _travellingTransform.GetComponent<SpriteRenderer>().sortingOrder = 10;
                 _travellingCharacter.SetPossessed(false);
                 _travellingCharacter = null;
                 _travellingTransform = null;
-			}
+            }
 
 			_mySR.sprite = OnSprite;
 		}
