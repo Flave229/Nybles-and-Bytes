@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
 namespace Assets
 {
     class PlayerDetected : IDetectable
@@ -11,6 +14,11 @@ namespace Assets
         public void Detected()
         {
             GameManager.Instance().GetSoundManager().StopMusic();
+            GameManager.Instance().GetSoundManager().PlaySoundEffect("Music/DyingSound", false);
+            
+            Scene current = SceneManager.GetActiveScene();
+            PlayerPrefs.SetString("LastLevel",current.name.ToString());
+            GameManager.Instance().GetListOfEntities().Clear();
             GameManager.Instance().GetSoundManager().PlaySoundEffect("Music/DyingSound1", false);
             Scenes.instance.LoadScene(Scenes.Scene.GAME_OVER);
         }

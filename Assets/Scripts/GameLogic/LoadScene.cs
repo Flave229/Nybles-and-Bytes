@@ -5,8 +5,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Assets.Scripts;
 
-public class LoadScene : MonoBehaviour {
-
+public class LoadScene : MonoBehaviour
+{
+    public bool _mLoadLastSceneInstead;
     public Scenes.Scene scene;
 
     // Use this for initialization
@@ -23,8 +24,16 @@ public class LoadScene : MonoBehaviour {
 
     void onClick()
     {
-        GameManager.Instance().GetSoundManager().StartStealthMusic();
-        Scenes.instance.LoadScene(scene);
+        if (_mLoadLastSceneInstead)
+        {
+            GameManager.Instance().GetSoundManager().StartStealthMusic();
+            SceneManager.LoadScene(PlayerPrefs.GetString("LastLevel"));
+        }
+        else
+        {
+            GameManager.Instance().GetSoundManager().StartStealthMusic();
+            Scenes.instance.LoadScene(scene);
+        }
     }
 
 }

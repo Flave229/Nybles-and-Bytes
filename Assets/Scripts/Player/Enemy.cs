@@ -76,6 +76,7 @@ namespace Assets.Scripts
         {
             foreach (PlayerCTRL player in GameManager.Instance().GetListOfEntities())
             {
+                //if (player == null) continue;
                 if (_chasingPlayer == false && player.transform.position.y - 2 < transform.position.y &&
                     player.transform.position.y + 2 > transform.position.y &&
                     player.transform.position.x - 5 < transform.position.x &&
