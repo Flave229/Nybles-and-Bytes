@@ -114,7 +114,10 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
         _mIsControlledByUser = state;
     }
 
-    public bool GetPossessed()
+	public bool IsControlledByUser() { return _mIsControlledByUser; }
+
+
+	public bool GetPossessed()
     {
         return _mIsPossessed;
     }
