@@ -3,6 +3,7 @@ using Assets.Scripts;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.GameLogic;
 
 public enum CharacterFacing
 {
@@ -49,6 +50,7 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
             // Allow clones to kill themselves
             if(Input.GetKeyDown(KeyCode.K))
             {
+                GameObject.Find("DataPacket").GetComponent<PickupUSB>().DropItem();
                 GameObject tempRef = gameObject;
                 int indexOfThisEntity = GameManager.Instance().GetListOfEntities().IndexOf(tempRef.GetComponent<PlayerCTRL>());
                 GameManager.Instance().GetListOfEntities().Remove(tempRef.GetComponent<PlayerCTRL>());
