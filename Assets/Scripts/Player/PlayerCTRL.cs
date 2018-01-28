@@ -52,7 +52,7 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
             Scenes.instance.LoadScene(Scenes.Scene.GAME_OVER);
         }
 
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             List<Lift> lifts = FindObjectsOfType<Lift>().OfType<Lift>().ToList();
             List<Switch> switches = FindObjectsOfType<Switch>().OfType<Switch>().ToList();
