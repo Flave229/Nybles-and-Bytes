@@ -25,6 +25,7 @@ public class LevelExit : MonoBehaviour
         if (isPlayer && other.name == "DataPacket")
         {
             GameManager.Instance().GetSoundManager().PlaySoundEffect("Sounds/Door and Switch/Door", false);
+            GameManager.Instance().GetSoundManager().StartStealthMusic();
             GameManager.Instance().ResetListOfEntities();
 			SceneManager.LoadScene(_mNextScene);
         }
