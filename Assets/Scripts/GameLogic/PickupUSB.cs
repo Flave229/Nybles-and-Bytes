@@ -8,27 +8,22 @@ public class PickupUSB : MonoBehaviour {
     bool PickedUp = false;
     GameObject holder;
 	// Use this for initialization
-	void Start () {
+	void Start()
+	{
         Collider = GetComponent<BoxCollider>();
 
     }
 	
 	// Update is called once per frame
-	void Update ()
+	void Update()
     {
         if (PickedUp)
-        {
-            Vector3 pos =  holder.transform.position;
-            Vector3 scaler = holder.transform.localScale;
-            pos.z = 0.01f;
-            pos.y = 3.6f;
-            transform.position = pos;
+		{
+			if (transform.localScale.x > 0.15f)
+				transform.localScale-=new Vector3(0.01f, 0.01f, 0);
 
-            scaler.x = 0.03f;
-            scaler.y = 0.03f;
-
-            transform.localScale = scaler;
-        }
+			transform.localPosition = new Vector3(0, 6.6666f*(1-2.2222f*(transform.localScale.x-0.15f)) );
+		}
 	}
 
     void OnTriggerEnter(Collider col)
@@ -37,6 +32,7 @@ public class PickupUSB : MonoBehaviour {
         {
             PickedUp = true;
             holder = col.gameObject;
-        }
+			gameObject.transform.parent = holder.transform;
+		}
     }
 }
