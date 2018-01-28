@@ -40,6 +40,12 @@ namespace Assets.Scripts.GameLogic
                 _alertBGM.Play();
         }
 
+        public void StopMusic()
+        {
+            _stealthBGM.Stop();
+            _alertBGM.Stop();
+        }
+
         public void StopAlertMusic()
         {
             _alertBGM.Stop();
