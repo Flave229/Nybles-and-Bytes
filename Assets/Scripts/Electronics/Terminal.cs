@@ -56,7 +56,7 @@ public class Terminal : MonoBehaviour, ICircuitComponent
             {
                 _cameraController.FollowPlayer(true);
                 _currentlySelected = false;
-                UPlayer.GetComponentInParent<PlayerCTRL>().SetPossessed(false);
+                UPlayer.GetComponentInParent<PlayerCTRL>()._mIsAtTerminal = false;
             }
             else
                 _surprise = false;
@@ -76,7 +76,7 @@ public class Terminal : MonoBehaviour, ICircuitComponent
 		if (Input.GetKeyUp(KeyCode.Space))
 		{
 			_currentlySelected = false;
-			UPlayer.GetComponentInParent<PlayerCTRL>().SetPossessed(false);
+			UPlayer.GetComponentInParent<PlayerCTRL>()._mIsAtTerminal = false;
 			_connectedTerminals[_currentTerminalIndex].Execute();
 		}
 	}
@@ -86,7 +86,7 @@ public class Terminal : MonoBehaviour, ICircuitComponent
         if (IsPlayerColliding())
         {
             _cameraController.FollowPlayer(false);
-			UPlayer.GetComponentInParent<PlayerCTRL>().SetPossessed(true);
+			UPlayer.GetComponentInParent<PlayerCTRL>()._mIsAtTerminal = true;
             _connectedTerminals = Peek();
 			_connectedTerminals.Remove(this);
             _currentTerminalIndex = 0;
