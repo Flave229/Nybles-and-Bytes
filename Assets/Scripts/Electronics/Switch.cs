@@ -12,6 +12,9 @@ namespace Assets.Scripts
         List<ICircuitComponent> PrevCircuitComponents = new List<ICircuitComponent>();
         List<ICircuitComponent> NextCircuitComponents = new List<ICircuitComponent>();
 
+		public Sprite OnSprite;
+		public Sprite OffSprite;
+
         void Start()
         {
             foreach (GameObject prevObject in PrevGameObjects)
@@ -39,6 +42,7 @@ namespace Assets.Scripts
                 characterTransform.localPosition.x > transform.localPosition.x - 1.0f && characterTransform.localPosition.x < transform.localPosition.x + 1.0f)
             {
                 Enabled = true;
+				GetComponentInParent<SpriteRenderer>().sprite = OnSprite;
                 Execute();
             }
         }
