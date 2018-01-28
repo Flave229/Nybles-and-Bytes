@@ -21,7 +21,10 @@ namespace Assets.Scripts.AI.TaskSystem
         {
             float distanceEnemyPlayer = Vector2.Distance(_initialSpotLocation, new Vector2(_player.transform.position.x, _player.transform.position.y));
             if (distanceEnemyPlayer > 5)
+            {
                 SetCompleted();
+                _player.DetectableBehaviour.Escaped();
+            }
             else if (distanceEnemyPlayer < 1)
             {
                 SetCompleted();

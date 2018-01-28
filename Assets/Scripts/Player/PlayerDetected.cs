@@ -11,13 +11,13 @@ namespace Assets
         public void Detected()
         {
             GameManager.Instance().GetSoundManager().StopMusic();
-            GameManager.Instance().GetSoundManager().PlaySoundEffect("Music/DyingSound", false);
+            GameManager.Instance().GetSoundManager().PlaySoundEffect("Music/DyingSound1", false);
             Scenes.instance.LoadScene(Scenes.Scene.GAME_OVER);
         }
 
         public void Escaped()
         {
-
+            GameManager.Instance().GetSoundManager().StopAlertMusic();
         }
     }
 }

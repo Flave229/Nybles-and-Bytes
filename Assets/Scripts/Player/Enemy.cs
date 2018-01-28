@@ -81,6 +81,7 @@ namespace Assets.Scripts
                     player.transform.position.x - 5 < transform.position.x &&
                     player.transform.position.x + 5 > transform.position.x)
                 {
+                    GameManager.Instance().GetSoundManager().StartAlertMusic();
                     _executingTask = new ChaseTask(player, this);
                     break;
                 }
