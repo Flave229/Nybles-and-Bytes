@@ -36,7 +36,7 @@ sysinfo.txt
 # Unity3D generated meta files
 # ============================
 *.meta
-!*/Assets/Resources/*.meta
+!*Assets/Resources/*.meta
 *.pidb.meta
 
 # Unity3D Generated File On Crash Reports
