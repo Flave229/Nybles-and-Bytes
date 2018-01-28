@@ -35,7 +35,7 @@ public class PickupUSB : MonoBehaviour {
         else
         {
             transform.localScale = originalScale;
-            GetComponent<Rigidbody>().useGravity = true;
+            GetComponent<Rigidbody>().useGravity = false;
         }
     }
 
