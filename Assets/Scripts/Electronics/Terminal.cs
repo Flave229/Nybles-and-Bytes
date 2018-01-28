@@ -110,7 +110,8 @@ public class Terminal : MonoBehaviour, ICircuitComponent
 		if (MyClonePC != null) return;
 
         MyClonePC = UPlayer.CreateClone(this.transform.position);
-        _cameraController.SetTargetPlayerObject(MyClonePC);
+		UPlayer.GetComponentInParent<PlayerCTRL>().SetUserControlEnabled(false);
+		UPlayer.PossessClone(MyClonePC);
         _cameraController.FollowPlayer(true);
     }
 	public bool IsPlayerColliding()
