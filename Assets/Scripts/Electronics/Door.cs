@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public enum OpenState
@@ -7,13 +6,15 @@ public enum OpenState
     CLOSED, OPEN
 }
 
-public class Door : MonoBehaviour
+public class Door : MonoBehaviour, ICircuitComponent
 {
     public OpenState openState;
-
     Vector3 scale;
-    
-	void Start()
+
+    public GameObject PrevGameObject;
+    ICircuitComponent PrevCircuitComponent;
+
+    void Start()
     {
         scale = transform.localScale;
 	}
@@ -36,5 +37,34 @@ public class Door : MonoBehaviour
     public void Close()
     {
         openState = OpenState.CLOSED;
+    }
+
+    public List<ICircuitComponent> SeekNext()
+    {
+        return new List<ICircuitComponent>();
+    }
+
+    public List<ICircuitComponent> SeekPrev()
+    {
+        return new List<ICircuitComponent>
+        {
+            PrevCircuitComponent
+        };
+    }
+
+    public List<ICircuitComponent> Peek()
+    {
+        return new List<ICircuitComponent>
+        {
+            this
+        };
+    }
+
+    public void Execute()
+    {
+        if (openState == OpenState.OPEN)
+            openState = OpenState.CLOSED;
+        else
+            openState = OpenState.OPEN;
     }
 }
