@@ -49,7 +49,6 @@ public class Terminal : MonoBehaviour, ICircuitComponent
 
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            //Debug.Log("F Pressed");
             _cameraController.FollowPlayer(true);
             _currentlySelected = false;
 			UPlayer.GetComponentInParent<PlayerCTRL>().SetPossessed(false);
@@ -68,7 +67,7 @@ public class Terminal : MonoBehaviour, ICircuitComponent
 
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            //Debug.Log("Space Pressed");
+            UPlayer.GetComponentInParent<PlayerCTRL>().SetPossessed(false);
             _connectedTerminals[_currentTerminalIndex].Execute();
             _cameraController.FollowPlayer(true);
         }
@@ -104,8 +103,6 @@ public class Terminal : MonoBehaviour, ICircuitComponent
 
 	public void Execute()
 	{
-        // Call execute on all connected components 
-        Debug.Log("Attempting to clone the player at terminal " + transform.name);
 		UPlayer.CreateClone (this.transform.position);
 	}
 
@@ -139,7 +136,6 @@ public class Terminal : MonoBehaviour, ICircuitComponent
 
 		ICC.Add (this);
         ICC = ICC.Where(x => x as Terminal != null).ToList();
-        Debug.Log("I am a " + this.GetType().ToString() + " called " + this.transform.name + " with " + ICC.Count.ToString() + " connected components.");
 		return ICC;
 	}
 }

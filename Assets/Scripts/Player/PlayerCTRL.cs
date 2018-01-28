@@ -13,7 +13,6 @@ public enum CharacterFacing
     FACE_CENTRE = 4
 }
 
-
 public class PlayerCTRL : MonoBehaviour, ICharacter
 {
     [SerializeField]
@@ -46,17 +45,12 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
 		
         if (!_mIsControlledByUser) return;
 
-        /*if (Input.GetKey(KeyCode.K))
-        {
-            Debug.Log("Key K");
-            Scenes.instance.LoadScene(Scenes.Scene.GAME_OVER);
-        }*/
-
         if (Input.GetKeyDown(KeyCode.E))
         {
             List<Lift> lifts = FindObjectsOfType<Lift>().OfType<Lift>().ToList();
             List<Switch> switches = FindObjectsOfType<Switch>().OfType<Switch>().ToList();
 			List<Fusebox> fuseboxes = FindObjectsOfType<Fusebox>().OfType<Fusebox>().ToList();
+            List<Terminal> terminals = FindObjectsOfType<Terminal>().OfType<Terminal>().ToList();
 
             foreach (Lift lift in lifts)
                 lift.Travel(this, transform);
@@ -66,11 +60,6 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
 
 			foreach (Fusebox fuse in fuseboxes)
 				fuse.Press(transform);
-        }
-
-        if (Input.GetKey(KeyCode.F))
-        {
-            List<Terminal> terminals = FindObjectsOfType<Terminal>().OfType<Terminal>().ToList();
 
             foreach (Terminal terminal in terminals)
                 terminal.Press();
