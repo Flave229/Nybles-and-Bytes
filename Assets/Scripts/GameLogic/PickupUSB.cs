@@ -8,6 +8,7 @@ public class PickupUSB : MonoBehaviour {
 
     Vector3 originalScale;
     Vector3 originalPos;
+
 	// Use this for initialization
 	void Start()
 	{
