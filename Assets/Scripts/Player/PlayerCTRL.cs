@@ -56,12 +56,16 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
         {
             List<Lift> lifts = FindObjectsOfType<Lift>().OfType<Lift>().ToList();
             List<Switch> switches = FindObjectsOfType<Switch>().OfType<Switch>().ToList();
+			List<Fusebox> fuseboxes = FindObjectsOfType<Fusebox>().OfType<Fusebox>().ToList();
 
             foreach (Lift lift in lifts)
                 lift.Travel(this, transform);
 
             foreach (Switch button in switches)
                 button.Press(transform);
+
+			foreach (Fusebox fuse in fuseboxes)
+				fuse.Press(transform);
         }
 
         if (Input.GetKey(KeyCode.F))

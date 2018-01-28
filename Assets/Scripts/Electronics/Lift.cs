@@ -103,7 +103,8 @@ public class Lift : MonoBehaviour, ICircuitComponent
 
     public List<ICircuitComponent> Peek()
     {
-        return new List<ICircuitComponent>
+		//Debug.Log("I am a " + this.GetType().ToString() + " called " + this.transform.name + ".");
+		return new List<ICircuitComponent>
         {
             this
         };
