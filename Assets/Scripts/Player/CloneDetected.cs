@@ -31,7 +31,7 @@ namespace Assets
 
         public void Escaped()
         {
-
+            GameManager.Instance().GetSoundManager().StopAlertMusic();
         }
     }
 }
