@@ -10,11 +10,13 @@ public class PickupUSB : MonoBehaviour {
     GameObject holder;
 
     Vector3 originalScale;
+    Vector3 originalPos;
 	// Use this for initialization
 	void Start()
 	{
         Collider = GetComponent<BoxCollider>();
         originalScale = transform.localScale;
+        originalPos = transform.position;
     }
 	
 	// Update is called once per frame
@@ -35,18 +37,22 @@ public class PickupUSB : MonoBehaviour {
         else
         {
             GetComponent<Rigidbody>().useGravity = true;
-            
+            transform.rotation = Quaternion.Euler(new Vector3(0.0f, 0.0f, 0.0f));
+            gameObject.transform.localScale = originalScale;
+            gameObject.transform.position = new Vector3(transform.position.x, transform.position.y, originalPos.z);
         }
     }
 
-    void OnTriggerEnter(Collider col)
+    private void OnCollisionEnter(Collision collision)
     {
+        Collider col = collision.collider;
         if (col.gameObject.tag == "Player")
         {
             PickedUp = true;
             holder = col.gameObject;
-			gameObject.transform.parent = holder.transform;
-		}
+            gameObject.transform.parent = holder.transform;
+            //gameObject.transform.localScale = originalScale;
+        }
     }
 
     public void DropItem()
