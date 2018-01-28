@@ -26,8 +26,8 @@ public class Scenes : MonoBehaviour
         return sceneNames[(int)scene];
     }
 
-    public void LoadScene(Scene scene, LoadSceneMode mode = LoadSceneMode.Single)
+    public void LoadScene(Scene scene)//, LoadSceneMode mode = LoadSceneMode.Single)
     {
-        SceneManager.LoadScene(GetSceneName(scene), mode);
+        SceneManager.LoadScene(GetSceneName(scene));//, mode);
     }
 }
