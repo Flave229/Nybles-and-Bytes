@@ -19,7 +19,15 @@ public class PickupUSB : MonoBehaviour {
         if (PickedUp)
         {
             Vector3 pos =  holder.transform.position;
+            Vector3 scaler = holder.transform.localScale;
+            pos.z = 0.01f;
+            pos.y = 3.6f;
             transform.position = pos;
+
+            scaler.x = 0.03f;
+            scaler.y = 0.03f;
+
+            transform.localScale = scaler;
         }
 	}
 
