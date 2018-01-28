@@ -19,10 +19,15 @@ public class PickupUSB : MonoBehaviour {
     {
         if (PickedUp)
 		{
-			if (transform.localScale.x > 0.15f)
-				transform.localScale-=new Vector3(0.01f, 0.01f, 0);
+			//if (transform.localScale.x > 0.15f)
+			//	transform.localScale-=new Vector3(0.01f, 0.01f, 0);
 
-			transform.localPosition = new Vector3(0, 6.6666f*(1-2.2222f*(transform.localScale.x-0.15f)) );
+			//transform.localPosition = new Vector3(0, 6.6666f*(1-2.2222f*(transform.localScale.x-0.15f)) );
+
+			if (transform.localPosition.y < 6.66f)
+				transform.localPosition = new Vector3(0, transform.localPosition.y + 0.33f);
+			else
+				transform.localPosition = new Vector3(0, 6.66f);
 		}
 	}
 
