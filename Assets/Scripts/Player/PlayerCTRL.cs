@@ -23,9 +23,9 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
     private bool _mIsPossessed;
     private bool _mIsControlledByUser = true;
     private Rigidbody _mRigidBody;
-
+    SpriteRenderer SpriteRender;
     public IDetectable DetectableBehaviour;
-
+    Animator Animator;
     private void Awake()
     {
         DetectableBehaviour = new CloneDetected(gameObject);
@@ -35,6 +35,8 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
     void Start()
     {
         _mRigidBody = GetComponent<Rigidbody>();
+        SpriteRender = GetComponent<SpriteRenderer>();
+        Animator = GetComponent<Animator>();
     }
 
     void FixedUpdate()
@@ -73,10 +75,26 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
         }
         
         float leftRight = Input.GetAxis("Horizontal");
+
         if (leftRight != 0)
         {
             _mFacingDirection = leftRight > 0 ? CharacterFacing.FACE_RIGHT : CharacterFacing.FACE_LEFT;
             _mRigidBody.MovePosition(this.transform.position + (new Vector3(leftRight * _mMoveForce, 0.0f, 0.0f) * Time.deltaTime));
+
+            AnimatorChangeState(1);
+            if (_mFacingDirection == CharacterFacing.FACE_LEFT)
+            {
+                SpriteRenderer spriteRender = GetComponent<SpriteRenderer>();
+                spriteRender.flipX = true;
+            }
+            else
+            {
+                SpriteRender.flipX = false;
+            }
+        }
+        else
+        {
+            AnimatorChangeState(0); //Idle 
         }
     }
 
@@ -103,5 +121,10 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
     public bool GetPossessed()
     {
         return _mIsPossessed;
+    }
+
+    private void AnimatorChangeState(int state)
+    {
+        Animator.SetInteger("State", state);
     }
 }
