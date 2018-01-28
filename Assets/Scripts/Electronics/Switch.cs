@@ -26,8 +26,8 @@ namespace Assets.Scripts
 
         public void Execute()
         {
-            if (Enabled == false)
-                return;
+            //if (Enabled == false)
+                //return;
 			
 			foreach (ICircuitComponent connectedComponent in NextCircuitComponents)
             {
@@ -41,8 +41,18 @@ namespace Assets.Scripts
                 characterTransform.position.y + 3.0f > transform.position.y &&
                 characterTransform.localPosition.x > transform.localPosition.x - 2.5f && characterTransform.localPosition.x < transform.localPosition.x + 2.5f)
             {
-                Enabled = true;
-				GetComponentInParent<SpriteRenderer>().sprite = OnSprite;
+                GameManager.Instance().GetSoundManager().PlaySoundEffect("Sounds/Door and Switch/Switch", false);
+
+                if (!Enabled)
+                {
+                    Enabled = true;
+                    GetComponentInParent<SpriteRenderer>().sprite = OnSprite;
+                }
+                else
+                {
+                    Enabled = false;
+                    GetComponentInParent<SpriteRenderer>().sprite = OffSprite;
+                }
                 Execute();
             }
         }

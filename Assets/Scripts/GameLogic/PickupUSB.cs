@@ -1,16 +1,14 @@
-﻿using Assets.Scripts.GameLogic;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PickupUSB : MonoBehaviour {
 
     Collider Collider;
     bool PickedUp = false;
-    GameObject holder;
+    public GameObject Holder;
 
     Vector3 originalScale;
     Vector3 originalPos;
+
 	// Use this for initialization
 	void Start()
 	{
@@ -49,8 +47,8 @@ public class PickupUSB : MonoBehaviour {
         if (col.gameObject.tag == "Player")
         {
             PickedUp = true;
-            holder = col.gameObject;
-            gameObject.transform.parent = holder.transform;
+            Holder = col.gameObject;
+            gameObject.transform.parent = Holder.transform;
             //gameObject.transform.localScale = originalScale;
         }
     }
