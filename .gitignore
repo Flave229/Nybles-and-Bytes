@@ -33,13 +33,6 @@ ehthumbs.db
 sysinfo.txt
 *.stackdump
 
-# Unity3D generated meta files
-# ============================
-*.meta
-!*Assets/Resources/*.meta
-!*Assets/Resources/Prefab/*.meta
-*.pidb.meta
-
 # Unity3D Generated File On Crash Reports
 # =======================================
 sysinfo.txt
