@@ -36,6 +36,7 @@ namespace Assets.Scripts
             RigidBody = GetComponent<Rigidbody>();
             SpriteRender = GetComponent<SpriteRenderer>();
             Animator = GetComponent<Animator>();
+            Animator.SetInteger("State", 0);
             _executingTask = new SeekTask(_movementAI, this, _patrolEnd);
         }
 
@@ -61,16 +62,12 @@ namespace Assets.Scripts
                 _patrolToEnd = false;
             }
 
-            float leftRight = _previousLocation.x - transform.position.x;  
-            if (leftRight < 0)
-            {
-                SpriteRenderer spriteRender = GetComponent<SpriteRenderer>();
-                spriteRender.flipX = true;
-            }
-            else
-            {
+            float leftRight = _previousLocation.x - transform.position.x;
+            AnimatorChangeState(1);
+            if (leftRight > 0)
+                SpriteRender.flipX = true;
+            else if (leftRight < 0)
                 SpriteRender.flipX = false;
-            }
 
             _previousLocation = transform.position;
         }
