@@ -21,7 +21,8 @@ public class LevelExit : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.name == "DataPacket")
+        bool isPlayer = other.GetComponentInParent<UniquePlayerCTRL>() != null;
+        if (isPlayer && other.name == "DataPacket")
         {
             GameManager.Instance().GetSoundManager().PlaySoundEffect("Sounds/Door and Switch/Door", false);
             GameManager.Instance().ResetListOfEntities();
