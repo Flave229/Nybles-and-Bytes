@@ -7,40 +7,42 @@ using UnityEngine.Audio;
 
 namespace Assets.Scripts.GameLogic
 {
-    class SoundManager
+    public class SoundManager : MonoBehaviour
     {
-        private static SoundManager _instance;
-        private AudioSource _stealthBGM;
-        private AudioSource _alertBGM;
+        public AudioSource _stealthBGM;
+        public AudioSource _alertBGM;
 
         private SoundManager()
         {
-
         }
 
-        public static SoundManager Instance()
+        public void Awake()
         {
-            return _instance ?? (_instance = new SoundManager());
-        }
-
-        public void InitialiseMusic()
-        {
-
+            _stealthBGM.Stop();
+            _alertBGM.Stop();
+            DontDestroyOnLoad(this);
         }
 
         public void StartStealthMusic()
-        { 
-
+        {
+            if (!_stealthBGM.isPlaying)
+            {
+                _stealthBGM.Play();
+            }
         }
 
         public void StartAlertMusic()
         {
+            _stealthBGM.Stop();
 
+            if(!_alertBGM.isPlaying)
+                _alertBGM.Play();
         }
 
         public void StopAlertMusic()
         {
-
+            _alertBGM.Stop();
+            StartStealthMusic();
         }
 
         public void PlaySoundEffect(string sfxFilename)

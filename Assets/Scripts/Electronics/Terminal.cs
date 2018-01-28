@@ -116,7 +116,7 @@ public class Terminal : MonoBehaviour, ICircuitComponent
     }
 	public bool IsPlayerColliding()
 	{
-		return IsPlayerCollided;
+		return IsPlayerCollided && UPlayer.GetComponentInParent<PlayerCTRL>().IsControlledByUser();
 	}
 
 	void OnTriggerEnter(Collider col)
