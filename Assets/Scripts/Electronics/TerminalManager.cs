@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class TerminalManager : MonoBehaviour
@@ -9,7 +8,7 @@ public class TerminalManager : MonoBehaviour
     int CurrentTerminal = 0;
 	UniquePlayerCTRL UniquePlayerCTRL;
 
-	public List<TerminalCircuitComponent> TerminalList = new List<TerminalCircuitComponent>();
+	public List<Terminal> TerminalList = new List<Terminal>();
 	List<ICircuitComponent> prevCurrentCircuitComponents = new List<ICircuitComponent>();
 	List<ICircuitComponent> nextCurrentCircuitComponents = new List<ICircuitComponent>();
 
@@ -25,7 +24,7 @@ public class TerminalManager : MonoBehaviour
 		{
 			for (int i = 0; i < TerminalList.Count; i++)
 			{
-				TerminalCircuitComponent terminal = TerminalList [i];
+				Terminal terminal = TerminalList [i];
 
 				if (terminal != null) 
 				{
