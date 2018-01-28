@@ -84,7 +84,8 @@ public class Terminal : MonoBehaviour, ICircuitComponent
 		{
             GameManager.Instance().GetSoundManager().PlaySoundEffect("Sounds/Player/Transfer/TransferNoise6", false);
             Deselect();
-			_connectedTerminals[_currentTerminalIndex].Execute();
+            _cameraController.FollowPlayer(true);
+            _connectedTerminals[_currentTerminalIndex].Execute();
 		}
 	}
 
