@@ -57,7 +57,10 @@ public class Lift : MonoBehaviour, ICircuitComponent
         if (Locked)
             return;
 
-        if (!bActive && ((int)characterTransform.position.y == (int)transform.position.y) && characterTransform.localPosition.x > transform.localPosition.x - 1.0f && characterTransform.localPosition.x < transform.localPosition.x + 1.0f)
+        if (!bActive &&
+            (characterTransform.position.x > transform.position.x - 1.0f && characterTransform.position.x < transform.position.x + 1.0f) && 
+            (characterTransform.position.y > transform.position.y - 1.0f && characterTransform.position.y < transform.position.y + 1.0f)
+            )
         {
             GameManager.Instance().GetSoundManager().PlaySoundEffect("Sounds/Elevator/ElevatorStart", false);
             bActive = true;
@@ -65,6 +68,7 @@ public class Lift : MonoBehaviour, ICircuitComponent
             _travellingTransform = characterTransform;
             character.SetPossessed(true);
             characterTransform.position = new Vector3(characterTransform.position.x, characterTransform.position.y, 20);
+            characterTransform.GetComponent<SpriteRenderer>().sortingOrder = -10;
             LiftCurrentSpeed = 0.0f;
             GameManager.Instance().GetSoundManager().PlaySoundEffect("Sounds/Elevator/ElevatorRunning", true);
         }
@@ -75,7 +79,9 @@ public class Lift : MonoBehaviour, ICircuitComponent
 	{
 		if (bActive)
 		{
-			if ((Direction == 1 && _travellingTransform.position.y + 0.67f - 0.382309f < DestinationDoor.transform.position.y) || (Direction == -1 && _travellingTransform.position.y + 0.67f - 0.382309f > DestinationDoor.transform.position.y))
+			if ((Direction == 1 && _travellingTransform.position.y + 0.67f - 0.382309f < DestinationDoor.transform.position.y) || 
+                (Direction == -1 && _travellingTransform.position.y + 0.67f - 0.382309f > DestinationDoor.transform.position.y)
+                )
 			{
                 if (Mathf.Abs(LiftCurrentSpeed) < LiftPeakSpeed)
 				{
@@ -90,10 +96,11 @@ public class Lift : MonoBehaviour, ICircuitComponent
                 GameManager.Instance().GetSoundManager().PlaySoundEffect("Sounds/Elevator/ElevatorDoor", false);
                 bActive = false;
                 _travellingTransform.Translate(new Vector3(0, 0, -20));
+                _travellingTransform.GetComponent<SpriteRenderer>().sortingOrder = 10;
                 _travellingCharacter.SetPossessed(false);
                 _travellingCharacter = null;
                 _travellingTransform = null;
-			}
+            }
 
 			_mySR.sprite = OnSprite;
 		}

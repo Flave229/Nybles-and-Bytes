@@ -19,7 +19,11 @@ namespace Assets.Scripts
 
         public static GameManager Instance()
         {
-            return _instance ?? (_instance = new GameManager());
+            if (_instance == null)
+            {
+                _instance = new GameManager();
+            }
+            return _instance;
         }
 
         void Update()
@@ -45,9 +49,9 @@ namespace Assets.Scripts
             return _mListOfPlayers;
         }
 
-		public void ResetListOfEntities()
-		{
-			_mListOfPlayers.Clear();
-		}
+        public void ResetListOfEntities()
+        {
+            _mListOfPlayers.Clear();
+        }
     }
 }

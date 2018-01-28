@@ -18,12 +18,14 @@ namespace Assets
             
             Scene current = SceneManager.GetActiveScene();
             PlayerPrefs.SetString("LastLevel",current.name.ToString());
+            GameManager.Instance().GetListOfEntities().Clear();
+            GameManager.Instance().GetSoundManager().PlaySoundEffect("Music/DyingSound1", false);
             Scenes.instance.LoadScene(Scenes.Scene.GAME_OVER);
         }
 
         public void Escaped()
         {
-
+            GameManager.Instance().GetSoundManager().StopAlertMusic();
         }
     }
 }

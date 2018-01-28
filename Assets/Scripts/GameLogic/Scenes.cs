@@ -30,7 +30,7 @@ public class Scenes : MonoBehaviour
     public void LoadScene(Scene scene)//, LoadSceneMode mode = LoadSceneMode.Single)
     {
         SceneManager.LoadScene(GetSceneName(scene));//, mode);
-        GameManager.Instance().GetSoundManager().StartStealthMusic();
+        //GameManager.Instance().GetSoundManager().StartStealthMusic();
         //gameObject.GetComponent<SoundManager>().StartStealthMusic();
     }
 }

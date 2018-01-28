@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Assets.Scripts;
 
 public class LoadScene : MonoBehaviour
 {
@@ -25,10 +26,12 @@ public class LoadScene : MonoBehaviour
     {
         if (_mLoadLastSceneInstead)
         {
+            GameManager.Instance().GetSoundManager().StartStealthMusic();
             SceneManager.LoadScene(PlayerPrefs.GetString("LastLevel"));
         }
         else
         {
+            GameManager.Instance().GetSoundManager().StartStealthMusic();
             Scenes.instance.LoadScene(scene);
         }
     }
