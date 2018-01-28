@@ -44,6 +44,25 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
     {
 		if (_mIsPossessed) return;
 
+        if(gameObject.GetComponent<UniquePlayerCTRL>() == null)
+        {
+            // Allow clones to kill themselves
+            if(Input.GetKeyDown(KeyCode.K))
+            {
+                GameObject tempRef = gameObject;
+                int indexOfThisEntity = GameManager.Instance().GetListOfEntities().IndexOf(tempRef.GetComponent<PlayerCTRL>());
+                GameManager.Instance().GetListOfEntities().Remove(tempRef.GetComponent<PlayerCTRL>());
+                Destroy(tempRef, 0.0f);
+
+                PlayerCameraController camera = FindObjectOfType<PlayerCameraController>();
+
+                PlayerCTRL lastControlled = GameManager.Instance().GetListOfEntities()[indexOfThisEntity - 1];
+                lastControlled.SetUserControlEnabled(true);
+                camera.SetTargetPlayerObject(lastControlled);
+                return;
+            }
+        }
+
 		// artificial gravity stronger than regular gravity
 		_mRigidBody.AddForce(Vector3.down * 20.0f * _mRigidBody.mass);
 
