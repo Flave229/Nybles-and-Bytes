@@ -68,6 +68,15 @@ public class UniquePlayerCTRL : MonoBehaviour
         return tempRefPlayerCTRL;
     }
 
+	// does not disable the previously possessed clone
+	public void PossessClone(PlayerCTRL clone)
+	{
+		_mCloneControlIndex = GameManager.Instance().GetListOfEntities().IndexOf(clone);
+
+		GameManager.Instance().GetListOfEntities()[_mCloneControlIndex].SetUserControlEnabled(true);
+		_mCamera.SetTargetPlayerObject(GameManager.Instance().GetListOfEntities()[_mCloneControlIndex]);
+	}
+
     public void DetectedByCamera()
     {
         _mRefToMyself.DetectableBehaviour.Detected();

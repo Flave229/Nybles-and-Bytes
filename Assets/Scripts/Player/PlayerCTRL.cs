@@ -22,8 +22,9 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
     private bool _mIsPossessed;
     private bool _mIsControlledByUser = true;
     private Rigidbody _mRigidBody;
-
     public IDetectable DetectableBehaviour;
+    SpriteRenderer SpriteRender;
+    Animator Animator;
 
     private void Awake()
     {
@@ -34,6 +35,8 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
     void Start()
     {
         _mRigidBody = GetComponent<Rigidbody>();
+        SpriteRender = GetComponent<SpriteRenderer>();
+        Animator = GetComponent<Animator>();
     }
 
     void FixedUpdate()
@@ -70,6 +73,21 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
         {
             _mFacingDirection = leftRight > 0 ? CharacterFacing.FACE_RIGHT : CharacterFacing.FACE_LEFT;
             _mRigidBody.MovePosition(this.transform.position + (new Vector3(leftRight * _mMoveForce, 0.0f, 0.0f) * Time.deltaTime));
+            
+            AnimatorChangeState(1);
+            if (_mFacingDirection == CharacterFacing.FACE_LEFT)
+            {
+                SpriteRenderer spriteRender = GetComponent<SpriteRenderer>();
+                spriteRender.flipX = true;
+            }
+            else
+            {
+                SpriteRender.flipX = false;
+            }
+        }
+        else
+        {
+            AnimatorChangeState(0); //Idle 
         }
     }
 
@@ -113,5 +131,10 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
         }
 
         return result;
+    }
+
+    private void AnimatorChangeState(int state)
+    {
+        Animator.SetInteger("State", state);
     }
 }
