@@ -1,24 +1,43 @@
-﻿ using System.Collections;
+﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[ExecuteInEditMode]
-[RequireComponent(typeof(LineRenderer))]
+/*[ExecuteInEditMode]
+[RequireComponent(typeof(LineRenderer))]*/
 public class WireRenderer : MonoBehaviour
 {
-    public GameObject otherEnd;
-    public Material wireMaterial;
-    public bool startHorizontal = true;
+    public Material _mWireMaterial;
+    public float _mWidth;
+    private WireCircuitComponent _mCircuitComp;
+    private LineRenderer _mLineDrawer;
 
-	void Start()
+    void Start()
     {
-		
-	}
-	
-	void Update()
+        _mCircuitComp = GetComponent<WireCircuitComponent>();
+
+        _mLineDrawer = gameObject.AddComponent<LineRenderer>();
+
+        Keyframe[] width = new Keyframe[2];
+        width[0] = new Keyframe(0.0f, _mWidth);
+        width[1] = new Keyframe(1.0f, _mWidth);
+
+        _mLineDrawer.enabled = true;
+        _mLineDrawer.material = _mWireMaterial;
+        _mLineDrawer.startWidth = _mWidth;
+        _mLineDrawer.startWidth = _mWidth;
+        _mLineDrawer.endWidth = _mWidth;
+        //_mLineDrawer.widthCurve = new AnimationCurve(width);
+    }
+
+    void Update()
     {
         if (!EditorApplication.isPlaying)
+        {
+            UpdateLineRenderer();
+        }
+        else
         {
             UpdateLineRenderer();
         }
@@ -26,41 +45,43 @@ public class WireRenderer : MonoBehaviour
 
     public void UpdateLineRenderer()
     {
-        LineRenderer line = GetComponent<LineRenderer>();
-        if (line)
+        if (_mCircuitComp.SeekPrev().Count > 0 && _mCircuitComp.SeekNext().Count > 0)
         {
-            if (otherEnd)
-            {
-                line.enabled = true;
-                line.material = wireMaterial;
 
-                List<Vector3> positions = new List<Vector3>();
-                positions.Add(transform.position);
-                Vector3 toOtherEnd = otherEnd.transform.position - transform.position;
-                if (toOtherEnd.x != 0 && toOtherEnd.y != 0)
+            List<Vector3> positions = new List<Vector3>();
+
+            for (int i = 0; i < _mCircuitComp.SeekPrev().Count; i++)
+            {
+                List<Vector3> path = new List<Vector3>();
+                for (int j = 0; j < _mCircuitComp.SeekNext().Count; j++)
                 {
-                    Vector3 midpoint = new Vector3();
-                    if (startHorizontal)
-                    {
-                        midpoint.y = transform.position.y;
-                        midpoint.x = otherEnd.transform.position.x;
-                    }
-                    else
-                    {
-                        midpoint.x = transform.position.x;
-                        midpoint.y = otherEnd.transform.position.y;
-                    }
-                    positions.Add(midpoint);
-                }
-                positions.Add(otherEnd.transform.position);
+                    List<ICircuitComponent> inPoint = _mCircuitComp.SeekPrev();
+                    List<ICircuitComponent> outPoint = _mCircuitComp.SeekNext();
 
-                line.positionCount = positions.Count;
-                line.SetPositions(positions.ToArray());
-            }
-            else
-            {
-                line.enabled = false;
-                line.positionCount = 0;
+                    MonoBehaviour start = inPoint[i] as MonoBehaviour;
+                    MonoBehaviour end = outPoint[j] as MonoBehaviour;
+
+                    if (start == end)
+                    {
+                        continue;
+                    }
+
+                    if (start && end)
+                    {
+                        path.Add(end.transform.position);
+                        path.Add(start.transform.position);
+                        //Debug.Log("Drawing " + start.name + " to " + end.name);
+                    }
+                }
+                try
+                {
+                    _mLineDrawer.positionCount = path.Count;
+                    _mLineDrawer.SetPositions(path.ToArray());
+                }
+                catch (Exception exception)
+                {
+                    Debug.Log(gameObject.name + " - HAS NO DEBUG RENDERER" + exception.ToString());
+                }
             }
         }
     }
