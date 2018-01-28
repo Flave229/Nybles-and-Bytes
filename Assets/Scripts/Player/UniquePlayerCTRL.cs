@@ -59,12 +59,13 @@ public class UniquePlayerCTRL : MonoBehaviour
         }
     }
 
-    public void CreateClone(Vector3 spawnPoint)
+    public PlayerCTRL CreateClone(Vector3 spawnPoint)
     {
         GameObject tempRef = Instantiate(_mClonePlayersRef, spawnPoint, transform.rotation);
         PlayerCTRL tempRefPlayerCTRL = tempRef.GetComponent<PlayerCTRL>();
         GameManager.Instance().GetListOfEntities().Add(tempRefPlayerCTRL);
         tempRefPlayerCTRL.SetUserControlEnabled(false);
+        return tempRefPlayerCTRL;
     }
 
     public void DetectedByCamera()
