@@ -21,5 +21,10 @@ namespace Assets
             GameManager.Instance().GetListOfEntities().Remove(tempRef.GetComponent<PlayerCTRL>());
             MonoBehaviour.Destroy(tempRef, 0.0f);
         }
+
+        public void Escaped()
+        {
+
+        }
     }
 }

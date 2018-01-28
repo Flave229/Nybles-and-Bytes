@@ -7,8 +7,8 @@ using System.Linq;
 public class Terminal : MonoBehaviour, ICircuitComponent
 {
     private bool _currentlySelected;
-
-	public List<GameObject> PrevGameObjects;
+    private bool _surprise;
+    public List<GameObject> PrevGameObjects;
 	public List<GameObject> NextGameObjects;
 
 	List<ICircuitComponent> PrevCircuitComponents = new List<ICircuitComponent>();
@@ -47,34 +47,31 @@ public class Terminal : MonoBehaviour, ICircuitComponent
         if (_currentlySelected == false)
             return;
 
-        if (Input.GetKeyUp(KeyCode.Escape))
+        if (Input.GetKeyUp(KeyCode.E))
         {
-            Debug.Log("F Pressed");
-            _cameraController.FollowPlayer(true);
-            _currentlySelected = false;
-        }
-
-        Debug.Log("Passed F Check");
-
+            if (_surprise == false)
+            {
+                _cameraController.FollowPlayer(true);
+                _currentlySelected = false;
+                UPlayer.GetComponentInParent<PlayerCTRL>().SetPossessed(false);
+            }
+            else
+                _surprise = false;
+		}
+        
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Debug.Log("Z Pressed");
             _currentTerminalIndex = _currentTerminalIndex - 1 <= 0 ? 0 : (_currentTerminalIndex - 1);
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
-            Debug.Log("X Pressed");
             _currentTerminalIndex = _currentTerminalIndex + 1 >= _connectedTerminals.Count ? _connectedTerminals.Count - 1 : _currentTerminalIndex + 1;
         }
 
         _currentTerminal = _connectedTerminals[_currentTerminalIndex];
 
         if (Input.GetKeyUp(KeyCode.Space))
-        {
-            Debug.Log("Space Pressed");
             _connectedTerminals[_currentTerminalIndex].Execute();
-            _cameraController.FollowPlayer(true);
-        }
 	}
 
     public void Press()
@@ -82,12 +79,12 @@ public class Terminal : MonoBehaviour, ICircuitComponent
         if (IsPlayerColliding())
         {
             _cameraController.FollowPlayer(false);
+			UPlayer.GetComponentInParent<PlayerCTRL>().SetPossessed(true);
             _connectedTerminals = Peek();
-            _connectedTerminals.Where(x => (x as Terminal).gameObject != gameObject).ToList();
-            foreach(Terminal terminal in _connectedTerminals)
-                Debug.Log(terminal);
+			_connectedTerminals.Remove(this);
             _currentTerminalIndex = 0;
             _currentlySelected = true;
+            _surprise = true;
         }
     }
 
@@ -102,11 +99,12 @@ public class Terminal : MonoBehaviour, ICircuitComponent
 	}
 
 	public void Execute()
-	{
-        // Call execute on all connected components 
-        Debug.Log("Attempting to clone the player at terminal " + transform.name);
-		UPlayer.CreateClone (this.transform.position);
-	}
+    {
+        UPlayer.GetComponentInParent<PlayerCTRL>().SetPossessed(false);
+        PlayerCTRL clonedPlayer = UPlayer.CreateClone (this.transform.position);
+        _cameraController.SetTargetPlayerObject(clonedPlayer);
+        _cameraController.FollowPlayer(true);
+    }
 
 	public bool IsPlayerColliding()
 	{
@@ -138,7 +136,6 @@ public class Terminal : MonoBehaviour, ICircuitComponent
 
 		ICC.Add (this);
         ICC = ICC.Where(x => x as Terminal != null).ToList();
-        Debug.Log("I am a " + this.GetType().ToString() + " called " + this.transform.name + " with " + ICC.Count.ToString() + " connected components.");
 		return ICC;
 	}
 }

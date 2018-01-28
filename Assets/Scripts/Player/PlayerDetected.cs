@@ -12,5 +12,10 @@ namespace Assets
         {
             Scenes.instance.LoadScene(Scenes.Scene.GAME_OVER);
         }
+
+        public void Escaped()
+        {
+
+        }
     }
 }

@@ -33,7 +33,7 @@ public class UniquePlayerCTRL : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Comma))
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             GameManager.Instance().GetListOfEntities()[_mCloneControlIndex].SetUserControlEnabled(false);
 
@@ -43,9 +43,9 @@ public class UniquePlayerCTRL : MonoBehaviour
             GameManager.Instance().GetListOfEntities()[_mCloneControlIndex].SetUserControlEnabled(true);
             _mCamera.SetTargetPlayerObject(GameManager.Instance().GetListOfEntities()[_mCloneControlIndex]);
 
-            Debug.Log("Idx: " + _mCloneControlIndex);
+            //Debug.Log("Idx: " + _mCloneControlIndex);
         }
-        else if (Input.GetKeyDown(KeyCode.Period))
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             GameManager.Instance().GetListOfEntities()[_mCloneControlIndex].SetUserControlEnabled(false);
 
@@ -55,43 +55,17 @@ public class UniquePlayerCTRL : MonoBehaviour
             GameManager.Instance().GetListOfEntities()[_mCloneControlIndex].SetUserControlEnabled(true);
             _mCamera.SetTargetPlayerObject(GameManager.Instance().GetListOfEntities()[_mCloneControlIndex]);
 
-            Debug.Log("Idx: " + _mCloneControlIndex);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Delete))
-        {
-            if (GameManager.Instance().GetListOfEntities()[_mCloneControlIndex] != _mRefToMyself)
-            {
-                _mCloneControlIndex = GameManager.Instance().GetListOfEntities().Count - 1;
-                Debug.Log("Del Idx: " + _mCloneControlIndex);
-
-                GameObject tempRef = GameManager.Instance().GetListOfEntities()[_mCloneControlIndex].gameObject;
-                GameManager.Instance().GetListOfEntities().Remove(GameManager.Instance().GetListOfEntities()[_mCloneControlIndex]);
-                Destroy(tempRef, 0.0f);
-
-                // Move focus to another clone
-                _mCloneControlIndex -= 1;
-                _mCamera.SetTargetPlayerObject(GameManager.Instance().GetListOfEntities()[_mCloneControlIndex]);
-                GameManager.Instance().GetListOfEntities()[_mCloneControlIndex].SetUserControlEnabled(true);
-
-                Debug.Log("Focus Idx: " + _mCloneControlIndex);
-
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.Insert))
-        {
-            Vector3 spawnPoint = GameManager.Instance().GetListOfEntities()[_mCloneControlIndex].transform.position;
-            spawnPoint.x += _newCloneXOffset;
-            CreateClone(spawnPoint);
+            //Debug.Log("Idx: " + _mCloneControlIndex);
         }
     }
 
-    public void CreateClone(Vector3 spawnPoint)
+    public PlayerCTRL CreateClone(Vector3 spawnPoint)
     {
         GameObject tempRef = Instantiate(_mClonePlayersRef, spawnPoint, transform.rotation);
         PlayerCTRL tempRefPlayerCTRL = tempRef.GetComponent<PlayerCTRL>();
         GameManager.Instance().GetListOfEntities().Add(tempRefPlayerCTRL);
         tempRefPlayerCTRL.SetUserControlEnabled(false);
+        return tempRefPlayerCTRL;
     }
 
     public void DetectedByCamera()

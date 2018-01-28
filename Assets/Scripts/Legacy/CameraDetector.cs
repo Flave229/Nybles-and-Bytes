@@ -18,4 +18,9 @@ public class CameraDetector : MonoBehaviour, Assets.Scripts.IDetectable
     {
         //throw new System.NotImplementedException();
     }
+
+    public void Escaped()
+    {
+
+    }
 }
