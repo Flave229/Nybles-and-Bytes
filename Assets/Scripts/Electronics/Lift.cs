@@ -57,7 +57,7 @@ public class Lift : MonoBehaviour, ICircuitComponent
         if (Locked)
             return;
 
-        if (!bActive && ((int)characterTransform.position.y == transform.position.y - 0.67f) && characterTransform.localPosition.x > transform.localPosition.x - 1.0f && characterTransform.localPosition.x < transform.localPosition.x + 1.0f)
+        if (!bActive && ((int)characterTransform.position.y == (int)transform.position.y) && characterTransform.localPosition.x > transform.localPosition.x - 1.0f && characterTransform.localPosition.x < transform.localPosition.x + 1.0f)
         {
             bActive = true;
             _travellingCharacter = character;
