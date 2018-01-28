@@ -93,7 +93,7 @@ public class Security_Camera : MonoBehaviour, ICircuitComponent
             if (col != null)
             {
                 Vector2 targetDir = col.gameObject.transform.position - transform.position;
-                //Debug.DrawLine(transform.position, _lineOfSight.position, Color.blue);
+                Debug.DrawLine(transform.position, _lineOfSight.position, Color.blue);
 
                 Vector2 lineOfSight = _lineOfSight.position - transform.position;
                 lineOfSight.Normalize();
@@ -153,22 +153,21 @@ public class Security_Camera : MonoBehaviour, ICircuitComponent
                         //Debug.DrawLine(transform.position, col.gameObject.transform.position, Color.green);
                         col.gameObject.GetComponent<UniquePlayerCTRL>().DetectedByCamera();
                     } 
-                    
-                    return;
                 }
                 else
                 {
-                    float angleToPlayer = Vector2.Angle(targetDir, lineOfSight * detectDistance);
                     // Clones
                     if (col.gameObject.GetComponent<PlayerCTRL>() != null)
                     {
+                        targetDir = col.gameObject.transform.position - transform.position;
+                        float angleToPlayer = Vector2.Angle(targetDir, lineOfSight * detectDistance);
                         if (angleToPlayer < FieldOfView)
                         {
 
                             col.gameObject.GetComponent<PlayerCTRL>().DetectableBehaviour.Detected();
 
                             _mCloneIndex = GameManager.Instance().GetListOfEntities().Count - 1;
-                            _mCloneIndex -= 1;
+                            //_mCloneIndex -= 1;
                             _mCamera.SetTargetPlayerObject(GameManager.Instance().GetListOfEntities()[_mCloneIndex]);
                             GameManager.Instance().GetListOfEntities()[_mCloneIndex].SetUserControlEnabled(true);
                         }
