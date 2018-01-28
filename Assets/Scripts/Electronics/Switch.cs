@@ -25,8 +25,8 @@ namespace Assets.Scripts
         {
             if (Enabled == false)
                 return;
-
-            foreach(ICircuitComponent connectedComponent in NextCircuitComponents)
+			
+			foreach (ICircuitComponent connectedComponent in NextCircuitComponents)
             {
                 connectedComponent.Execute();
             }
@@ -53,7 +53,8 @@ namespace Assets.Scripts
             {
                 components.AddRange(connectedComponents.Peek());
             }
-            return components;
+			//Debug.Log("I am a " + this.GetType().ToString() + " called " + this.transform.name + " with " + components.Count.ToString() + " connected components.");
+			return components;
         }
 
         public List<ICircuitComponent> SeekNext()
