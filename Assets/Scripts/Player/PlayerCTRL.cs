@@ -155,11 +155,13 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
 
         if ( Input.GetKey( KeyCode.D ) )
         {
+           // GameManager.Instance().GetSoundManager().PlayWalkSFX();
             result += 1.0f;
         }
 
         if ( Input.GetKey( KeyCode.A ) )
         {
+            //GameManager.Instance().GetSoundManager().PlayWalkSFX();
             result -= 1.0f;
         }
 
