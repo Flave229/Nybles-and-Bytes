@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
+using Assets.Scripts;
 
 public class Terminal : MonoBehaviour, ICircuitComponent
 {
@@ -81,7 +82,8 @@ public class Terminal : MonoBehaviour, ICircuitComponent
 
 		if (Input.GetKeyUp(KeyCode.Space))
 		{
-			Deselect();
+            GameManager.Instance().GetSoundManager().PlaySoundEffect("Sounds/Player/Transfer/TransferNoise6", false);
+            Deselect();
 			_connectedTerminals[_currentTerminalIndex].Execute();
 		}
 	}
@@ -103,6 +105,7 @@ public class Terminal : MonoBehaviour, ICircuitComponent
     {
         if (IsPlayerColliding())
         {
+            GameManager.Instance().GetSoundManager().PlaySoundEffect("Sounds/Keyboard/KeyboardButtons", false);
             _cameraController.FollowPlayer(false);
 			UPlayer.GetComponentInParent<PlayerCTRL>()._mIsAtTerminal = true;
 			SetHighlight(true);

@@ -23,7 +23,8 @@ public class LevelExit : MonoBehaviour
     {
         if (other.name == "DataPacket")
         {
-			GameManager.Instance().ResetListOfEntities();
+            GameManager.Instance().GetSoundManager().PlaySoundEffect("Sounds/Door and Switch/Door", false);
+            GameManager.Instance().ResetListOfEntities();
 			SceneManager.LoadScene(_mNextScene);
         }
     }
