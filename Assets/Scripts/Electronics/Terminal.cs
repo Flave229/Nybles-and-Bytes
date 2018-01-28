@@ -76,7 +76,10 @@ public class Terminal : MonoBehaviour, ICircuitComponent
             _cameraController.FollowPlayer(false);
 			UPlayer.GetComponentInParent<PlayerCTRL>().SetPossessed(true);
             _connectedTerminals = Peek();
-            _connectedTerminals.Where(x => (x as Terminal).gameObject != gameObject).ToList();
+			// this terminal should always be the last one
+			_connectedTerminals.Remove(this);
+			// this didn't work
+            //_connectedTerminals.Where(x => (x as Terminal).gameObject != gameObject).ToList();
             foreach(Terminal terminal in _connectedTerminals)
                 Debug.Log(terminal);
             _currentTerminalIndex = 0;
