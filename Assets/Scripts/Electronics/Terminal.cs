@@ -68,12 +68,12 @@ public class Terminal : MonoBehaviour, ICircuitComponent
         if (Input.GetKeyDown(KeyCode.Z))
         {
 			(_currentTerminal as Terminal).SetHighlight(false);
-            _currentTerminalIndex = _currentTerminalIndex - 1 <= 0 ? 0 : (_currentTerminalIndex - 1);
+            _currentTerminalIndex = _currentTerminalIndex - 1 < 0 ? _connectedTerminals.Count - 1 : (_currentTerminalIndex - 1);
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
 			(_currentTerminal as Terminal).SetHighlight(false);
-			_currentTerminalIndex = _currentTerminalIndex + 1 >= _connectedTerminals.Count ? _connectedTerminals.Count - 1 : _currentTerminalIndex + 1;
+			_currentTerminalIndex = _currentTerminalIndex + 1 >= _connectedTerminals.Count ? 0 : _currentTerminalIndex + 1;
         }
 
         _currentTerminal = _connectedTerminals[_currentTerminalIndex];
