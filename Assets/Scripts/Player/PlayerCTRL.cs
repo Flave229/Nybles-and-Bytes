@@ -81,10 +81,15 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
             List<Terminal> terminals = FindObjectsOfType<Terminal>().OfType<Terminal>().ToList();
 
             foreach (Lift lift in lifts)
+            {
                 lift.Travel(this, transform);
+            }
+                
 
             foreach (Switch button in switches)
+            {
                 button.Press(transform);
+            }    
 
 			foreach (Fusebox fuse in fuseboxes)
 				fuse.Press(transform);

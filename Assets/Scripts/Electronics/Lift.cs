@@ -59,12 +59,14 @@ public class Lift : MonoBehaviour, ICircuitComponent
 
         if (!bActive && ((int)characterTransform.position.y == (int)transform.position.y) && characterTransform.localPosition.x > transform.localPosition.x - 1.0f && characterTransform.localPosition.x < transform.localPosition.x + 1.0f)
         {
+            GameManager.Instance().GetSoundManager().PlaySoundEffect("Sounds/Elevator/ElevatorStart", false);
             bActive = true;
             _travellingCharacter = character;
             _travellingTransform = characterTransform;
             character.SetPossessed(true);
             characterTransform.position = new Vector3(characterTransform.position.x, characterTransform.position.y, 20);
             LiftCurrentSpeed = 0.0f;
+            GameManager.Instance().GetSoundManager().PlaySoundEffect("Sounds/Elevator/ElevatorRunning", true);
         }
     }
 
@@ -75,7 +77,7 @@ public class Lift : MonoBehaviour, ICircuitComponent
 		{
 			if ((Direction == 1 && _travellingTransform.position.y + 0.67f - 0.382309f < DestinationDoor.transform.position.y) || (Direction == -1 && _travellingTransform.position.y + 0.67f - 0.382309f > DestinationDoor.transform.position.y))
 			{
-				if (Mathf.Abs(LiftCurrentSpeed) < LiftPeakSpeed)
+                if (Mathf.Abs(LiftCurrentSpeed) < LiftPeakSpeed)
 				{
 					LiftCurrentSpeed += Direction*LiftAcceleration;
 					if (Mathf.Abs(LiftCurrentSpeed) > LiftPeakSpeed) LiftCurrentSpeed = Direction * LiftPeakSpeed;
@@ -85,7 +87,8 @@ public class Lift : MonoBehaviour, ICircuitComponent
 			}
 			else
 			{
-				bActive = false;
+                GameManager.Instance().GetSoundManager().PlaySoundEffect("Sounds/Elevator/ElevatorDoor", false);
+                bActive = false;
                 _travellingTransform.Translate(new Vector3(0, 0, -20));
                 _travellingCharacter.SetPossessed(false);
                 _travellingCharacter = null;

@@ -11,6 +11,7 @@ namespace Assets.Scripts.GameLogic
     {
         public AudioSource _stealthBGM;
         public AudioSource _alertBGM;
+        public AudioSource _sfxSource;
 
         private SoundManager()
         {
@@ -45,9 +46,11 @@ namespace Assets.Scripts.GameLogic
             StartStealthMusic();
         }
 
-        public void PlaySoundEffect(string sfxFilename)
+        public void PlaySoundEffect(string sfxFilename, bool loop)
         {
-
+            _sfxSource.clip = (AudioClip)Resources.Load(sfxFilename, typeof(AudioClip));
+            _sfxSource.loop = loop;
+            _sfxSource.Play();
         }
     }
 }
