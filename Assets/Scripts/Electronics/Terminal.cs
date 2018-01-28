@@ -52,7 +52,7 @@ public class Terminal : MonoBehaviour, ICircuitComponent
             //Debug.Log("F Pressed");
             _cameraController.FollowPlayer(true);
             _currentlySelected = false;
-			//UPlayer.GetComponentInParent<PlayerCTRL>().SetPossessed(false);
+			UPlayer.GetComponentInParent<PlayerCTRL>().SetPossessed(false);
 		}
         
         if (Input.GetKeyDown(KeyCode.Z))
@@ -79,7 +79,7 @@ public class Terminal : MonoBehaviour, ICircuitComponent
         if (IsPlayerColliding())
         {
             _cameraController.FollowPlayer(false);
-			//UPlayer.GetComponentInParent<PlayerCTRL>().SetPossessed(true);
+			UPlayer.GetComponentInParent<PlayerCTRL>().SetPossessed(true);
             _connectedTerminals = Peek();
             _connectedTerminals.Where(x => (x as Terminal).gameObject != gameObject).ToList();
             foreach(Terminal terminal in _connectedTerminals)
