@@ -37,9 +37,9 @@ namespace Assets.Scripts
 
         public void Press(Transform characterTransform)
         {
-            if ((characterTransform.position.y - 2.0f < transform.position.y) &&
-                characterTransform.position.y + 2.0f > transform.position.y &&
-                characterTransform.localPosition.x > transform.localPosition.x - 1.0f && characterTransform.localPosition.x < transform.localPosition.x + 1.0f)
+            if ((characterTransform.position.y - 3.0f < transform.position.y) &&
+                characterTransform.position.y + 3.0f > transform.position.y &&
+                characterTransform.localPosition.x > transform.localPosition.x - 2.5f && characterTransform.localPosition.x < transform.localPosition.x + 2.5f)
             {
                 Enabled = true;
 				GetComponentInParent<SpriteRenderer>().sprite = OnSprite;
