@@ -10,6 +10,7 @@ namespace Assets
     class CloneDetected : IDetectable
     {
         GameObject gameObject;
+
         public CloneDetected(GameObject gameObject)
         {
             this.gameObject = gameObject;
@@ -17,9 +18,15 @@ namespace Assets
 
         public void Detected()
         {
+            gameObject.GetComponent<BloodDeath>().Bleed();
+            PickupUSB dataPacket = GameObject.Find("DataPacket").GetComponent<PickupUSB>();
+            if (dataPacket.Holder != null && dataPacket.Holder == gameObject)
+                dataPacket.DropItem();
+
             GameObject tempRef = gameObject;
             GameManager.Instance().GetListOfEntities().Remove(tempRef.GetComponent<PlayerCTRL>());
-            MonoBehaviour.Destroy(tempRef, 0.0f);
+            int indexOfThisEntity = GameManager.Instance().GetListOfEntities().IndexOf(tempRef.GetComponent<PlayerCTRL>());
+            UnityEngine.Object.Destroy(tempRef, 0.0f);
         }
 
         public void Escaped()

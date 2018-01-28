@@ -50,6 +50,7 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
             // Allow clones to kill themselves
             if(Input.GetKeyDown(KeyCode.K))
             {
+                gameObject.GetComponent<BloodDeath>().Bleed();
                 GameObject.Find("DataPacket").GetComponent<PickupUSB>().DropItem();
                 GameObject tempRef = gameObject;
                 int indexOfThisEntity = GameManager.Instance().GetListOfEntities().IndexOf(tempRef.GetComponent<PlayerCTRL>());
@@ -80,10 +81,15 @@ public class PlayerCTRL : MonoBehaviour, ICharacter
             List<Terminal> terminals = FindObjectsOfType<Terminal>().OfType<Terminal>().ToList();
 
             foreach (Lift lift in lifts)
+            {
                 lift.Travel(this, transform);
+            }
+                
 
             foreach (Switch button in switches)
+            {
                 button.Press(transform);
+            }    
 
 			foreach (Fusebox fuse in fuseboxes)
 				fuse.Press(transform);
